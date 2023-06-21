@@ -12,10 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library("formatdown")
-library("data.table")
 
-# data.table printout
+library("formatdown")
+
 options(
   datatable.print.nrows = 15,
   datatable.print.topn = 3,
@@ -23,9 +22,14 @@ options(
 )
 ```
 
+![](../man/figures/powers-of-ten-chart-2.png){width=70%}    
+<small>Chart by Jeff Cruzan is licensed under CC BY-NC-SA 3.0</small>
+
+<br>
+
 The notation we use to represent large and small numbers depends on the context of our communications. In a computer script, for example, we might encode Avogadro's number as `6.0221*10^23`. A computer printout of this number would typically use E-notation, as in `6.0221E+23`.
 
-In professional technical communications, however, computer syntax should be avoided---the asterisk (`*`) and carat (`^`) in `6.0221*10^23` communicate   *instructions to a computer*, not *mathematics to a reader*. And while E-notation (`6.0221E+23`) has currency in some discourse communities, the general convention in technical communications is to format large and small numbers using powers-of-ten notation of the form, 
+In professional technical communications, however, computer syntax should be avoided---the asterisk (`*`) and carat (`^`) in `6.0221*10^23` communicate   *instructions to a computer*, not *syntactical mathematics*. And while scientific E-notation (`6.0221E+23`) has currency in some discourse communities, the general convention in technical communications is to format large and small numbers using powers-of-ten notation of the form, 
 
 $$
 a \times 10^n, 
@@ -39,17 +43,32 @@ The $\times$ multiplication symbol, often avoided in other contexts, is conventi
 
 *Exceptions.* &nbsp; When exponents are in the neighborhood of zero, for example, $n \in \{-1, 0, 1, 2\}$, decimal notation may be preferred to power of ten notation. Decimal values such as 0.1234, 1.234, 12.34, and 123.4 might be printed as-is. The range of exponents to include in this set is discretionary. 
 
+*Notes on syntax.* &nbsp; We have to distinguish between computer syntax, math syntax, and markup syntax. 
+
+- Anyone who has written a line of code involving multiplication is familiar with the asterisk as the multiplication operator, e.g., `x = a * b` or `y = a * (b + c)`. In written mathematics, however, these expressions are written without multiplication symbols, that is, $x=ab$ and $y=a(b+c)$. Moreover, mathematically the asterisk has a completely different meaning---it represents the *convolution* operation between two functions, as in $\left(f * g \right)(t)$. 
+
+- The carat symbol (`^`), to the best of my knowledge, is a programming operator only; mathematically it has no meaning. 
+
+- In our markup language, `\times` is the product symbol and `^` indicates a superscript or exponent. 
+
+
+
+
+
+
+
+
 ## Markup
 
-In R Markdown and Quarto Markdown, we use an inline equation markup delimited by `$...$` to create a math expression in the output document. For example, the markup for Avogadro's number is given by, 
+In R Markdown and Quarto Markdown, we use an inline equation markup delimited by `$ ... $` to create a math expression in the output document (`\( ... \)` is also an option). For example, the markup for Avogadro's number is given by, 
 
-        $N_A = 6.0221\times{10}^{23}$
+        $6.0221 \times 10^{23}$
 
-which yields $N_A = 6.0221 \times 10^{23}$ in the document. To *program* the markup, however, we enclose the markup as a character string, that is, 
+which yields $6.0221 \times 10^{23}$ in the document. To *program* the markup, however, we enclose the markup as a character string, that is, 
 
-        "$N_A = 6.0221\\times{10}^{23}$"
+        "$6.0221 \\times 10^{23}$"
 
-which requires the backward slash `\` to be "escaped", hence the product symbol is denoted `\\times`. This is the form of the output produced by `format_power()`. 
+which requires the backward slash `\` to be "escaped", hence the product symbol is `\\times`. This is the form of the output produced by `format_power()`. 
 
 
 
@@ -58,29 +77,34 @@ which requires the backward slash `\` to be "escaped", hence the product symbol 
 
 Given a number, a numerical vector, or a numerical column from a data frame, `format_power()` converts the numbers to character strings of the form, 
 
-        "$a\\times{10}^{n}$" 
+        "$a \\times 10^{n}$" 
  
 where `a` is the coefficient and `n` is the exponent. The user can specify the number of significant digits and scientific or engineering format. Unless otherwise specified, numbers with exponents in the neighborhood of zero are excluded from power of ten notation and are converted to character strings of the form, 
 
         "$a$" 
 
-where `a` is the number in decimal notation to the specified number of significant digits. 
+where `a` is the number in decimal notation to the specified number of significant digits.
  
 *Arguments.*
 
 - **x** &nbsp; Numerical vector to be formatted. Can be a scalar, a vector, or a column from a data frame. 
 
-- **digits** &nbsp; Positive nonzero integer to specify the number of significant digits. Default is 3. 
+- **digits** &nbsp; Positive nonzero integer to specify the number of significant digits. Default is 4. 
 
 - **format** &nbsp; Possible values are "engr" (engineering notation) and "sci" (scientific notation). Default is "engr". 
 
-- **omit_power** &nbsp; Numeric vector of length two (or NULL). Determines the range of exponents excluded from power-of-ten notation. Default is `c(-1, 2)`. 
+- **omit_power** &nbsp; Numeric vector of length two (or NULL). Determines the range of exponents excluded from power-of-ten notation. Default is `c(-1, 2)`.
+
+- **set_power** &nbsp; Integer assigned as the fixed power-of-ten, overriding scientific or engineering formatting. Default NULL. 
+
+- **delim** &nbsp; Character vector of length one or two defining the math markup delimiters. Possible values include `"$"` or `"\\("`, both of which create appropriate left and right delimiters. Custom delimiters can be assigned if required by one's TeX processor. 
 
 If you are writing your own script to follow along, we use these packages in this vignette:
 
 ```{r}
 library("formatdown")
 library("data.table")
+library("knitr")
 ```
 
 *Equivalent usage.*  &nbsp;  The first two arguments do not have to be named if the argument order is maintained. 
@@ -90,10 +114,10 @@ library("data.table")
 avogadro <- 6.0221E+23
 
 # Arguments named
-(x <- format_power(x = avogadro, digits = 3))
+(x <- format_power(x = avogadro, digits = 4))
 
 # Arguments unnamed
-y <- format_power(avogadro, 3)
+y <- format_power(avogadro, 4)
 
 # Implicit use of default argument
 z <- format_power(avogadro)
@@ -116,7 +140,7 @@ Use with inline R code.
 format_power(avogadro)
 ```
 
-which, in an Rmd or qmd document, is rendered as `r format_power(avogadro)`. 
+which, in an `.Rmd` or `.qmd` document, is rendered as `r format_power(avogadro)`. 
 
 
 
@@ -132,7 +156,7 @@ x <- c(
 format_power(x)
 ```
 
-is rendered as `r format_power(x)[1:3]`, etc.  
+is rendered as `r format_power(x)[1:4]`, etc.  
 
 
 
@@ -158,61 +182,156 @@ are rendered as
 
 
 
+
+
 ## Format
 
-Argument, if included, must be named. 
+`format` argument default value is "engr". If included, argument must be named. 
 
 ```{r}
+format_power(x[3])
 format_power(x[3], format = "sci")
-format_power(x[3], format = "engr")
 ```
 
 are rendered as 
 
+- `r format_power(x[3])`
 - `r format_power(x[3], format = "sci")`
-- `r format_power(x[3], format = "engr")`
 
 To compare the effects across many orders of magnitude, we format the example vector twice, placing the results side by side in a data frame for comparison, rendered using `knitr::kable()`, 
 
 ```{r}
 # Compare two formats
 DT <- data.table(
-  scientific  = format_power(x, format = "sci"),
-  engineering = format_power(x)
+  scientific  = format_power(x, 3, format = "sci"),
+  engineering = format_power(x, 3)
 )
-knitr::kable(DT, align = "rr")
+knitr::kable(DT, align = "r", col.names = c("scientific notation", "engineering notation"))
 ```
 
+The values displayed without powers-of-ten notation are in the range set by the `omit_power` argument, described in the next section. 
 
 
 
 
-## Exceptions
 
-`omit_power` argument, if included, must be named.   
+## Omit power notation
+
+`omit_power` argument, if included, must be named. 
+
+Suppose, for example, we want the value 0.0678 to be rendered without powers-of-ten notation. The exponent for this number in scientific notation is $-2$, as in `r format_power(0.0678, format = "sci")`. If this exponent is within the range set by `omit_power`, the number is rendered without power-of-ten notation (overriding the `format` argument). 
 
 ```{r}
-format_power(x[6], omit_power = c(-1, 3))
-format_power(x[6], omit_power = c(0, 3))
+format_power(0.0678, 3, format = "sci", omit_power = c(-2, 2))
+format_power(0.0678, 3, format = "sci", omit_power = c(-1, 2))
 ```
 
 are rendered as 
 
-- `r format_power(x[6], omit_power = c(-1, 3))`
-- `r format_power(x[6], omit_power = c(0, 3))`
+- `r format_power(0.0678, 3, format = "sci", omit_power = c(-2, 2))`
+- `r format_power(0.0678, 3, format = "sci", omit_power = c(-1, 2))`
 
-`omit_power = NULL` removes the exceptions and all numbers are rendered in the selected power-of-ten notation.  
+`omit_power = NULL` removes the exceptions and formats all numbers in  power-of-ten notation.  
 
 ```{r}
 # Omit no values from power-of-ten notation
 DT <- data.table(
-  scientific = format_power(x, format = "sci", omit_power = NULL),
-  engineering = format_power(x, omit_power = NULL)
+  scientific  = format_power(x, 3, format = "sci", omit_power = NULL),
+  engineering = format_power(x, 3, omit_power = NULL)
 )
-knitr::kable(DT, align = "rr")
+knitr::kable(DT, align = "r", col.names = c("scientific notation", "engineering notation"))
 ```
 
 
+
+
+
+
+
+
+## Set power notation
+
+`set_power` argument, if included, must be named. 
+
+When values in a table column span a few orders of magnitude, an audience is often better served by setting the notation to a constant power of ten. In the example below, we show the tabulated values of the viscosity of water as a function of temperature (from the `water` data set included with `formatdown`). 
+
+```{r}
+# Copy to avoid by-reference changes
+DT <- copy(water)
+
+# Convert temperature from K to C
+DT <- DT[, .(temp = round(temp - 273.15), visc)]
+
+# Create two columns to compare
+DT[, ver1 := format_power(visc, 3)]
+DT[, ver2 := format_power(visc, 3, set_power = -3)]
+```
+
+The first two columns are unformatted. The third column, in engineering format, includes exponents of $-3$ and $-6$. In the last column, we set the exponents to $-3$ throughout. 
+
+```{r}
+knitr::kable(DT, align = "r", col.names = c(
+  "Temperature [C]", "Viscosity [Pa s]", "engineering notation", "with fixed exponent"
+))
+```
+
+In the next example, we see that the `set_power` argument does not override the `omit_power` settings
+
+```{r}
+DT <- copy(atmos)
+DT <- DT[, .(alt = alt / 1000, dens)]
+DT[, ver1 := format_power(dens, 3)]
+DT[, ver2 := format_power(dens, 3, set_power = -3)]
+DT[, ver3 := format_power(dens, 3, set_power = -3, omit_power = NULL)]
+
+kable(DT, align = "r", col.names = c(
+  "Altitude [km]",
+  "Density [kg/m$^3$]",
+  "engineering notation",
+  "with fixed exponent",
+  "omit decimals"
+))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+## Delimiters
+
+`delim` argument, if included, must be named. 
+
+```{r}
+# Equivalent usage
+w <- format_power(x[1])
+y <- format_power(x[1], delim = "$")
+z <- format_power(x[1], delim = c("$", "$"))
+
+all.equal(w, y)
+all.equal(w, z)
+```
+
+all of which render as 
+
+- `r format_power(x[1])`
+
+I encountered one instance in which the `$ ... $` delimiters did not produce the desired output---using `kableExtra::kbl()` to create a table in a `.qmd` output document. Switching the delimiters to `\\( ... \\)` fixed the problem, per the recommendation of the MathJax consortium  (Cervone, 2018). 
+
+```{r}
+format_power(x[1], delim = "\\(")
+format_power(x[1], delim = c("\\(", "\\)"))
+```
+
+are both rendered as 
+
+- `r format_power(x[1], delim = "\\(")`
 
 
 
@@ -220,154 +339,81 @@ knitr::kable(DT, align = "rr")
 
 ## Data frame
 
-Using `density`, a data frame included with formatdown that contains columns of class Date, character, factor, numeric, and integer.
+Using `air_meas`, a data frame included with `formatdown` that contains columns of class Date, character, factor, numeric, and integer.
 
 ```{r}
-density
-```
+# Included with formatdown
+air_meas
 
-which is rendered un-formatted as
-
-```{r}
-#| echo: false
-knitr::kable(density, align = "ccrrr")
+# Render in document
+knitr::kable(air_meas, align = "r")
 ```
 
 Treating a column as a vector, 
 
 ```{r}
-# Copy to avoid "by reference" changes to density
-DT <- copy(density)
+# Copy to avoid "by reference" changes to air_meas
+DT <- copy(air_meas)
 
 # Format as a vector
-format_power(DT$p_Pa, digits = 4)
+format_power(DT$pres, digits = 4)
 ```
 
-is rendered as `r format_power(DT$p_Pa, digits = 4)`. 
+is rendered as `r format_power(DT$pres, digits = 4)`. 
 
 Treating a column within a data frame, 
 
 ```{r}
-# Copy to avoid "by reference" changes to density
-DT <- copy(density)
+# Copy to avoid "by reference" changes to air_meas
+DT <- copy(air_meas)
 
 # Format one column, retain all columns
-DT$p_Pa <- format_power(DT$p_Pa, digits = 4)
+DT$pres <- format_power(DT$pres, digits = 4)
 DT[]
-```
 
-is rendered as
-
-```{r}
-#| echo: false
+# Render in document
 knitr::kable(DT, align = "r")
 ```
 
 Using `lapply()` to select and treat multiple columns from a data frame, 
 
 ```{r}
-# Copy to avoid "by reference" changes to density
-DT <- copy(density)
+# Copy to avoid "by reference" changes to air_meas
+DT <- copy(air_meas)
 
 # Identify columns to format
-cols_we_want <- c("T_K", "p_Pa", "density")
+cols_we_want <- c("temp", "pres", "dens")
 
 # Select and format.
 DT <- DT[, lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
 DT[]
-```
 
-is rendered as
-
-```{r}
-#| echo: false
+# Render in document
 knitr::kable(DT, align = "r")
 ```
 
 Repeat, but retain all columns,  
 
 ```{r}
-# Copy to avoid "by reference" changes to density
-DT <- copy(density)
+# Copy to avoid "by reference" changes to air_meas
+DT <- copy(air_meas)
 
 # Identify columns to format
-cols_we_want <- c("T_K", "p_Pa", "density")
+cols_we_want <- c("temp", "pres", "dens")
 
 # Format selected columns, retain all columns
 DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
 DT[]
+
+# Render in document
+knitr::kable(DT, align = "r")
 ```
-
-is rendered as
-
-```{r}
-#| echo: false
-knitr::kable(DT, align = "ccrrr")
-```
-
-If different columns should be reported with different significant digits, treat the columns separately. 
-
-```{r}
-# Copy to avoid "by reference" changes to density
-DT <- copy(density)
-
-# Format selected columns, retain all columns with signif digits = 5
-cols_we_want <- c("T_K", "density")
-DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 5)), .SDcols = cols_we_want]
-
-# Individually format one column with signif digits = 4
-DT$p_Pa <- format_power(DT$p_Pa, 4)
-DT[]
-```
-
-is rendered as
-
-```{r}
-#| echo: false
-knitr::kable(DT, align = "ccrrr")
-```
-
-
-
-
-
-
-
-
-## Non-numeric input
-
-Applying the function to non-numeric objects produces errors. For example, "Date" class. 
-
-```{r}
-#| error: true
-x <- density$date
-format_power(x)
-```
-
-Error on "character" class, 
-
-```{r}
-#| error: true
-x <- density$trial
-format_power(x)
-```
-
-Error on "factor" class, 
-
-```{r}
-#| error: true
-x <- density$humidity
-format_power(x)
-```
-
-
 
 
 
 ## References
 
-Chase, Morgan. 2021. *Technical Mathematics.* https://openoregon.pressbooks.pub/techmath/chapter/module-11-scientific-notation/.
+Davide Cervone (2018) MathJax: TeX and LaTeX math delimiters,   https://docs.mathjax.org/en/v2.7-latest/tex.html#tex-and-latex-math-delimiters. 
 
-
-
+Morgan Chase (2021) *Technical Mathematics,*  https://openoregon.pressbooks.pub/techmath/chapter/module-11-scientific-notation/.
 

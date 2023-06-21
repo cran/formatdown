@@ -6,8 +6,20 @@
 <!-- PATCH version backwards-compatible bug fixes -->
 <!-- DEV 900x development -->
 
+## formatdown 0.1.2
 
-## formatdown 0.1.1 (2022-11)
+2023-01-30
 
-- Initial CRAN submission
+- Add arguments `delim` and `set_power` to `format_power()`.
+- Fixed a bug to remove extra spaces added by `formatC()`. 
+- Add data sets `atmos`, `metals`, and `water`. 
+- Rename `density` data set to `air_meas`.
+- Add `format_decimal()` and vignette.
+- Add `format_units()` and vignette. 
+
+## formatdown 0.1.1
+
+2022-11-21
+
+- Initial CRAN release
 
