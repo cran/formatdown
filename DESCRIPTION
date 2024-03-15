@@ -1,6 +1,6 @@
 Package: formatdown
 Title: Formatting Tools for 'rmarkdown' Documents
-Version: 0.1.2
+Version: 0.1.3
 Language: en-US
 Authors@R: person("Richard", "Layton", email="graphdoctor@gmail.com", role=c("aut", "cre"))
 Description: Provides a small set of tools for formatting tasks when creating 
@@ -25,9 +25,11 @@ URL: https://github.com/graphdr/formatdown/,
         https://graphdr.github.io/formatdown/,
         https://CRAN.R-project.org/package=formatdown
 BugReports: https://github.com/graphdr/formatdown/issues
+Collate: 'data.R' 'utils.R' 'format_decimal.R' 'format_power.R'
+        'format_text.R' 'format_units.R' 'formatdown-package.R'
 NeedsCompilation: no
-Packaged: 2023-06-21 22:07:08 UTC; layto
+Packaged: 2024-03-15 15:20:53 UTC; layto
 Author: Richard Layton [aut, cre]
 Maintainer: Richard Layton <graphdoctor@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-06-21 23:40:02 UTC
+Date/Publication: 2024-03-15 15:50:04 UTC

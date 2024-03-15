@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Format text</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Format text</h1>
+
+
+
+<p><img src="data:image/png;base64,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" style="width:70.0%" /><br />
+<small>LaTeX math formatting text table by Alessio Damato is licensed
+under CC BY-SA 3.0 <a href="http://creativecommons.org/licenses/by-sa/3.0/" class="uri">http://creativecommons.org/licenses/by-sa/3.0/</a> via
+Wikimedia Commons.</small></p>
+<p><br></p>
+<p>Columns of text in a data table will generally not be rendered using
+the same typeface as numerical value formatted using
+<code>format_power()</code> or <code>format_decimal()</code>. The
+<code>format_text()</code> function provides an approach to assigning a
+typeface to such columns.</p>
+<div id="markup" class="section level2">
+<h2>Markup</h2>
+<p>Text is delimited by <code>$ ... $</code> similar to the math markup
+applied by <code>format_power()</code> and <code>format_decimal()</code>
+with the addition of LaTeX-style math-text commands such as
+<code>\mathrm</code>, <code>\mathit</code>, etc. and font size commands
+such as <code>\small</code> or <code>\normalsize</code> to output one of
+the standard typefaces for text.</p>
+<p>For example, the default markup for the text “abcde” is given by</p>
+<pre><code>    &quot;$\\small\\mathrm{abcde}$&quot;</code></pre>
+<p>where <code>\\small</code> controls the font size. As discussed in
+other vignettes, the backslash in <code>\small</code> and
+<code>\mathrm</code> must be “escaped” for rendering, hence the markup
+is given by <code>\\small\\mathrm</code>.</p>
+</div>
+<div id="format_text" class="section level2">
+<h2><code>format_text()</code></h2>
+<p>Given a character string, vector, or column from a data frame,
+<code>format_text()</code> converts the values to character strings of
+the form,</p>
+<pre><code>    &quot;$\\size\\math*{a}&quot; </code></pre>
+<p>where <code>a</code> is the element to be formatted;
+<code>\\size</code> controls the font size using conventional LaTeX size
+commands (<code>\\small</code>, <code>\\normalsize</code>,
+<code>\\large</code>, etc.); and <code>\\math*</code>⁠ determines the
+font face: plain type is set by <code>\\mathrm</code>; italics by
+<code>\\mathit</code>; bold by <code>\\mathbf</code>, sans serif by
+<code>\\mathsf</code>; and monospace (typewriter text) by
+<code>\\mathtt</code>. The string includes markup delimiters
+<code>$...$</code>⁠ for rendering as an inline equation in R Markdown or
+Quarto Markdown document.</p>
+<p><em>Arguments.</em></p>
+<ul>
+<li><p><strong>x</strong>   Text to be formatted. Can be a scalar, a
+vector, or a column from a data frame. Non-characters are coerced to
+character class if possible.</p></li>
+<li><p><strong>face</strong>   Font face. Possible values are “plain”
+(default), “italic”, “bold”, “sans”, or “mono”. Can also be set as a
+global option, for example,
+<code>options(formatdown.font.face = &quot;sans)</code>, that can be
+overwritten in an individual function call.</p></li>
+<li><p><strong>size</strong>   Font size. Possible values are
+“scriptsize”, “small” (default), “normalsize”, “large”, or “huge”. Can
+also be set as a global option, for example,
+<code>options(formatdown.font.size = &quot;normalsize&quot;)</code>, that can be
+overwritten in an individual function call.</p></li>
+<li><p><strong>delim</strong>   Character vector of length one or two
+defining the math markup delimiters. Possible values include
+<code>&quot;$&quot;</code> (default) or <code>&quot;\\(&quot;</code>, both of which create
+appropriate left and right delimiters. Custom delimiters can be assigned
+if required by one’s TeX processor.</p></li>
+</ul>
+<p>If you are writing your own script to follow along, we use these
+packages in this vignette:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;formatdown&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;knitr&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">options</span>(<span class="at">formatdown.font.size =</span> <span class="st">&quot;small&quot;</span>)</span></code></pre></div>
+</div>
+<div id="font-size" class="section level2">
+<h2>Font size</h2>
+<p>Format the same column of text using each of the five possible
+<code>size</code> arguments for comparison.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;low&quot;</span>, <span class="st">&quot;med&quot;</span>, <span class="st">&quot;high&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># Compare formats</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">scriptsize =</span> <span class="fu">format_text</span>(x, <span class="at">size =</span> <span class="st">&quot;scriptsize&quot;</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">small      =</span> <span class="fu">format_text</span>(x, <span class="at">size =</span> <span class="st">&quot;small&quot;</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="at">normalsize =</span> <span class="fu">format_text</span>(x, <span class="at">size =</span> <span class="st">&quot;normalsize&quot;</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">large      =</span> <span class="fu">format_text</span>(x, <span class="at">size =</span> <span class="st">&quot;large&quot;</span>),</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">huge       =</span> <span class="fu">format_text</span>(x, <span class="at">size =</span> <span class="st">&quot;huge&quot;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="18%" />
+<col width="22%" />
+<col width="18%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">scriptsize</th>
+<th align="right">small</th>
+<th align="right">normalsize</th>
+<th align="right">large</th>
+<th align="right">huge</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\scriptsize\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\normalsize\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\huge\mathrm{low}\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\scriptsize\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\normalsize\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\huge\mathrm{med}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\scriptsize\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\normalsize\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\huge\mathrm{high}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="typeface" class="section level2">
+<h2>Typeface</h2>
+<p>Format the same column of text using each of the five possible
+<code>face</code> arguments for comparison.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Compare formats</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">plain  =</span> <span class="fu">format_text</span>(x, <span class="at">face =</span> <span class="st">&quot;plain&quot;</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">italic =</span> <span class="fu">format_text</span>(x, <span class="at">face =</span> <span class="st">&quot;italic&quot;</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">bold   =</span> <span class="fu">format_text</span>(x, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="at">sans   =</span> <span class="fu">format_text</span>(x, <span class="at">face =</span> <span class="st">&quot;sans&quot;</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">mono   =</span> <span class="fu">format_text</span>(x, <span class="at">face =</span> <span class="st">&quot;mono&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">plain</th>
+<th align="right">italic</th>
+<th align="right">bold</th>
+<th align="right">sans</th>
+<th align="right">mono</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\small\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathit{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathbf{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathsf{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathtt{low}\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\small\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathit{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathbf{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathsf{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathtt{med}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\small\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathit{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathbf{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathsf{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathtt{high}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="special-characters-in-math-mode" class="section level2">
+<h2>Special characters in math mode</h2>
+<p>The argument of <code>format_text()</code> is evaluated within a
+math-markup. Thus math syntax such as an underscore “_” or carat “^” are
+rendered in math mode, not verbatim. For example, the underscore creates
+a subscript and the carat creates a superscript,</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">format_text</span>(<span class="st">&quot;R_e&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;$\\small\\mathrm{R_e}$&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">format_text</span>(<span class="st">&quot;m^3&quot;</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;$\\small\\mathrm{m^3}$&quot;</span></span></code></pre></div>
+<p>rendered as</p>
+<ul>
+<li><span class="math inline">\(\small\mathrm{R_e}\)</span></li>
+<li><span class="math inline">\(\small\mathrm{m^3}\)</span></li>
+</ul>
+<p>To retain the underscore or carat as characters, we can try to escape
+the special character or use the LaTeX verbatim function,</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">format_text</span>(<span class="st">&quot;R</span><span class="sc">\\</span><span class="st">_e&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;$\\small\\mathrm{R\\_e}$&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">format_text</span>(<span class="st">&quot;m</span><span class="sc">\\</span><span class="st">verb|^|3&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;$\\small\\mathrm{m\\verb|^|3}$&quot;</span></span></code></pre></div>
+<p>rendered as</p>
+<ul>
+<li><span class="math inline">\(\small\mathrm{R\_e}\)</span></li>
+<li><span class="math inline">\(\small\mathrm{m\verb|^|3}\)</span></li>
+</ul>
+</div>
+<div id="tables-of-data" class="section level2">
+<h2>Tables of data</h2>
+<p>Because <code>format_text()</code> is intended for columns of text in
+data tables, we reproduce here a table developed in the
+<code>format_power()</code> vignette.</p>
+<p>First, we’ll format the numerical columns,</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Copy to avoid &quot;by reference&quot; changes to air_meas</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(air_meas)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># Format selected columns to 4 digits</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>cols_we_want <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;temp&quot;</span>, <span class="st">&quot;pres&quot;</span>, <span class="st">&quot;dens&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[, (cols_we_want) <span class="sc">:=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x, <span class="dv">4</span>)), .SDcols <span class="ot">=</span> cols_we_want]</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co"># Treat the gas constant with 3 digits</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>DT<span class="sc">$</span>sp_gas <span class="ot">&lt;-</span> <span class="fu">format_power</span>(DT<span class="sc">$</span>sp_gas, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co"># View the result</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>DT[]</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;          date  trial  humid            temp                           pres</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;        &lt;Date&gt; &lt;char&gt; &lt;fctr&gt;          &lt;char&gt;                         &lt;char&gt;</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; 1: 2018-06-12      a    low $\\small 294.1$ $\\small 1.011 \\times 10^{5}$</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; 2: 2018-06-13      b   high $\\small 294.1$ $\\small 1.010 \\times 10^{5}$</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; 3: 2018-06-14      c    med $\\small 294.6$ $\\small 1.011 \\times 10^{5}$</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 4: 2018-06-15      d    low $\\small 293.4$ $\\small 1.010 \\times 10^{5}$</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; 5: 2018-06-16      e   high $\\small 293.9$ $\\small 1.011 \\times 10^{5}$</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt;           sp_gas            dens</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt;           &lt;char&gt;          &lt;char&gt;</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; 1: $\\small 287$ $\\small 1.198$</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; 2: $\\small 287$ $\\small 1.196$</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; 3: $\\small 287$ $\\small 1.196$</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; 4: $\\small 287$ $\\small 1.200$</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; 5: $\\small 287$ $\\small 1.199$</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT,</span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;r&quot;</span>,</span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Table 1. Numerical columns formatted; text columns unformatted.&quot;</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<caption>Table 1. Numerical columns formatted; text columns
+unformatted.</caption>
+<colgroup>
+<col width="11%" />
+<col width="6%" />
+<col width="6%" />
+<col width="15%" />
+<col width="30%" />
+<col width="13%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">date</th>
+<th align="right">trial</th>
+<th align="right">humid</th>
+<th align="right">temp</th>
+<th align="right">pres</th>
+<th align="right">sp_gas</th>
+<th align="right">dens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2018-06-12</td>
+<td align="right">a</td>
+<td align="right">low</td>
+<td align="right"><span class="math inline">\(\small 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.198\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">2018-06-13</td>
+<td align="right">b</td>
+<td align="right">high</td>
+<td align="right"><span class="math inline">\(\small 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.196\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right">2018-06-14</td>
+<td align="right">c</td>
+<td align="right">med</td>
+<td align="right"><span class="math inline">\(\small 294.6\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.196\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">2018-06-15</td>
+<td align="right">d</td>
+<td align="right">low</td>
+<td align="right"><span class="math inline">\(\small 293.4\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.200\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right">2018-06-16</td>
+<td align="right">e</td>
+<td align="right">high</td>
+<td align="right"><span class="math inline">\(\small 293.9\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.199\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Next we’ll format the three text columns using the default
+<code>face = &quot;plain&quot;</code> argument, resulting in text columns whose
+typeface matches that of the numerical columns for a consistent visual
+aesthetic.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Format selected columns as text</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>cols_we_want <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;date&quot;</span>, <span class="st">&quot;trial&quot;</span>, <span class="st">&quot;humid&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[, (cols_we_want) <span class="sc">:=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_text</span>(x)), .SDcols <span class="ot">=</span> cols_we_want]</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># View the result</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>DT[]</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;                             date                trial                   humid</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt;                           &lt;char&gt;               &lt;char&gt;                  &lt;char&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; 1: $\\small\\mathrm{2018-06-12}$ $\\small\\mathrm{a}$  $\\small\\mathrm{low}$</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; 2: $\\small\\mathrm{2018-06-13}$ $\\small\\mathrm{b}$ $\\small\\mathrm{high}$</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; 3: $\\small\\mathrm{2018-06-14}$ $\\small\\mathrm{c}$  $\\small\\mathrm{med}$</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; 4: $\\small\\mathrm{2018-06-15}$ $\\small\\mathrm{d}$  $\\small\\mathrm{low}$</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; 5: $\\small\\mathrm{2018-06-16}$ $\\small\\mathrm{e}$ $\\small\\mathrm{high}$</span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt;               temp                           pres        sp_gas            dens</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;             &lt;char&gt;                         &lt;char&gt;        &lt;char&gt;          &lt;char&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; 1: $\\small 294.1$ $\\small 1.011 \\times 10^{5}$ $\\small 287$ $\\small 1.198$</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; 2: $\\small 294.1$ $\\small 1.010 \\times 10^{5}$ $\\small 287$ $\\small 1.196$</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; 3: $\\small 294.6$ $\\small 1.011 \\times 10^{5}$ $\\small 287$ $\\small 1.196$</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt; 4: $\\small 293.4$ $\\small 1.010 \\times 10^{5}$ $\\small 287$ $\\small 1.200$</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; 5: $\\small 293.9$ $\\small 1.011 \\times 10^{5}$ $\\small 287$ $\\small 1.199$</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT,</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;r&quot;</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Table 2. Text columns formatted to match&quot;</span>,</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<caption>Table 2. Text columns formatted to match</caption>
+<colgroup>
+<col width="19%" />
+<col width="13%" />
+<col width="15%" />
+<col width="10%" />
+<col width="20%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">date</th>
+<th align="right">trial</th>
+<th align="right">humid</th>
+<th align="right">temp</th>
+<th align="right">pres</th>
+<th align="right">sp_gas</th>
+<th align="right">dens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\small\mathrm{2018-06-12}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{a}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.198\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\small\mathrm{2018-06-13}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{b}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.196\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\small\mathrm{2018-06-14}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{c}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{med}\)</span></td>
+<td align="right"><span class="math inline">\(\small 294.6\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.196\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\small\mathrm{2018-06-15}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{d}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{low}\)</span></td>
+<td align="right"><span class="math inline">\(\small 293.4\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.200\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\small\mathrm{2018-06-16}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{e}\)</span></td>
+<td align="right"><span class="math inline">\(\small\mathrm{high}\)</span></td>
+<td align="right"><span class="math inline">\(\small 293.9\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\small 287\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.199\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="options" class="section level2">
+<h2>Options</h2>
+<p>The <code>options()</code> function can be used to set global values
+for two arguments in <code>format_text()</code>:</p>
+<ul>
+<li><code>face</code> (default is “plain”)</li>
+<li><code>size</code> (default is “small”)</li>
+</ul>
+<p>For example,</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Assign arguments to be used from this point forward in the script</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">options</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">formatdown.font.size =</span> <span class="st">&quot;large&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="at">formatdown.font.face =</span> <span class="st">&quot;italic&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># Copy to avoid &quot;by reference&quot; changes to air_meas</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(air_meas)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># Format selected columns to 4 digits</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>cols_we_want <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;temp&quot;</span>, <span class="st">&quot;pres&quot;</span>, <span class="st">&quot;dens&quot;</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[, (cols_we_want) <span class="sc">:=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_power</span>(x, <span class="dv">4</span>)), .SDcols <span class="ot">=</span> cols_we_want]</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co"># Treat the gas constant with 3 digits</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>DT<span class="sc">$</span>sp_gas <span class="ot">&lt;-</span> <span class="fu">format_power</span>(DT<span class="sc">$</span>sp_gas, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co"># Format selected columns as text</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>cols_we_want <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;date&quot;</span>, <span class="st">&quot;trial&quot;</span>, <span class="st">&quot;humid&quot;</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>DT <span class="ot">&lt;-</span> DT[, (cols_we_want) <span class="sc">:=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_text</span>(x)), .SDcols <span class="ot">=</span> cols_we_want]</span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT,</span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;r&quot;</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Table 3. Using `option()` for size size and face&quot;</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>)</span></code></pre></div>
+<table>
+<caption>Table 3. Using <code>option()</code> for size size and
+face</caption>
+<colgroup>
+<col width="19%" />
+<col width="13%" />
+<col width="15%" />
+<col width="10%" />
+<col width="20%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">date</th>
+<th align="right">trial</th>
+<th align="right">humid</th>
+<th align="right">temp</th>
+<th align="right">pres</th>
+<th align="right">sp_gas</th>
+<th align="right">dens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\large\mathit{2018-06-12}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{a}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{low}\)</span></td>
+<td align="right"><span class="math inline">\(\large 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\large 287\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.198\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\large\mathit{2018-06-13}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{b}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{high}\)</span></td>
+<td align="right"><span class="math inline">\(\large 294.1\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\large 287\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.196\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\large\mathit{2018-06-14}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{c}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{med}\)</span></td>
+<td align="right"><span class="math inline">\(\large 294.6\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\large 287\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.196\)</span></td>
+</tr>
+<tr class="even">
+<td align="right"><span class="math inline">\(\large\mathit{2018-06-15}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{d}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{low}\)</span></td>
+<td align="right"><span class="math inline">\(\large 293.4\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.010 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\large 287\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.200\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right"><span class="math inline">\(\large\mathit{2018-06-16}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{e}\)</span></td>
+<td align="right"><span class="math inline">\(\large\mathit{high}\)</span></td>
+<td align="right"><span class="math inline">\(\large 293.9\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.011 \times
+10^{5}\)</span></td>
+<td align="right"><span class="math inline">\(\large 287\)</span></td>
+<td align="right"><span class="math inline">\(\large 1.199\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>You can overwrite your global assignment using the <code>face</code>
+or <code>size</code> argument in any individual function call.</p>
+<ul>
+<li>The <code>face</code> option affects arguments of
+<code>format_text()</code> only.</li>
+<li>The <code>size</code> option affects arguments of both
+<code>format_text()</code> and <code>format_power()</code>.</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

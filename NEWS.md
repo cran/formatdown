@@ -1,14 +1,19 @@
+# formatdown 0.1.3
 
-<!-- MAJOR.MINOR.PATCH.DEV -->
+2024--03--14
 
-<!-- MAJOR version when you make incompatible API changes -->
-<!-- MINOR version add functionality in a backwards-compatible manner -->
-<!-- PATCH version backwards-compatible bug fixes -->
-<!-- DEV 900x development -->
+- add `format_text()` function 
+- add `size` argument to `format_power()`
+- add `signif()` to `format_power()` to enforce significant digits in output before applying `formatC()` 
+- add `options()` to globally set font size and power of ten format arguments
+- correct issue with `omit_power()` argument
+- correct issue with numbers < machine eps
+- add package alias
+- update tests and vignettes to reflect changes
 
-## formatdown 0.1.2
+# formatdown 0.1.2
 
-2023-01-30
+2023--06--21
 
 - Add arguments `delim` and `set_power` to `format_power()`.
 - Fixed a bug to remove extra spaces added by `formatC()`. 
@@ -17,9 +22,16 @@
 - Add `format_decimal()` and vignette.
 - Add `format_units()` and vignette. 
 
-## formatdown 0.1.1
+
+# formatdown 0.1.1
 
 2022-11-21
 
 - Initial CRAN release
 
+<!-- MAJOR.MINOR.PATCH.DEV -->
+
+<!-- MAJOR version when you make incompatible API changes -->
+<!-- MINOR version add functionality in a backwards-compatible manner -->
+<!-- PATCH version backwards-compatible bug fixes -->
+<!-- DEV 900x development -->

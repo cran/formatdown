@@ -377,20 +377,20 @@ by one’s TeX processor.</p></li>
 </ul>
 <p>If you are writing your own script to follow along, we use these
 packages in this vignette:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;formatdown&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;knitr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;formatdown&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;knitr&quot;</span>)</span></code></pre></div>
 </div>
 <div id="practice-data-table" class="section level2">
 <h2>Practice data table</h2>
 <p>Using the <code>atmos</code> data set include with
 <code>formatdown</code> with various atmospheric properties as a
 function of height above sea level.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data set included with formatdown</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(atmos)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Data set included with formatdown</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">copy</span>(atmos)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -472,11 +472,11 @@ function of height above sea level.</p>
 <h2>Power-of-ten column</h2>
 <p>Of these variables, density best lends itself to powers-of-ten
 notation. For this range of values, a fixed exponent of <span class="math inline">\(-3\)</span> seems to work OK.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply power of ten notation to one column</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>dens <span class="ot">&lt;-</span> <span class="fu">format_power</span>(DT<span class="sc">$</span>dens, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">set_power =</span> <span class="sc">-</span><span class="dv">3</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Apply power of ten notation to one column</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>DT<span class="sc">$</span>dens <span class="ot">&lt;-</span> <span class="fu">format_power</span>(DT<span class="sc">$</span>dens, <span class="at">digits =</span> <span class="dv">3</span>, <span class="at">set_power =</span> <span class="sc">-</span><span class="dv">3</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -492,21 +492,21 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">0</td>
 <td align="right">288.15</td>
 <td align="right">101300.00</td>
-<td align="right"><span class="math inline">\(1.23\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.23\)</span></td>
 <td align="right">340.29</td>
 </tr>
 <tr class="even">
 <td align="right">10000</td>
 <td align="right">223.25</td>
 <td align="right">26500.00</td>
-<td align="right"><span class="math inline">\(0.414\)</span></td>
+<td align="right"><span class="math inline">\(\small 0.414\)</span></td>
 <td align="right">299.53</td>
 </tr>
 <tr class="odd">
 <td align="right">20000</td>
 <td align="right">216.65</td>
 <td align="right">5529.00</td>
-<td align="right"><span class="math inline">\(88.9 \times
+<td align="right"><span class="math inline">\(\small 88.9 \times
 10^{-3}\)</span></td>
 <td align="right">295.07</td>
 </tr>
@@ -514,7 +514,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">30000</td>
 <td align="right">226.51</td>
 <td align="right">1197.00</td>
-<td align="right"><span class="math inline">\(18.4 \times
+<td align="right"><span class="math inline">\(\small 18.4 \times
 10^{-3}\)</span></td>
 <td align="right">301.71</td>
 </tr>
@@ -522,7 +522,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">40000</td>
 <td align="right">250.35</td>
 <td align="right">287.00</td>
-<td align="right"><span class="math inline">\(4.00 \times
+<td align="right"><span class="math inline">\(\small 4.00 \times
 10^{-3}\)</span></td>
 <td align="right">317.19</td>
 </tr>
@@ -530,7 +530,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">50000</td>
 <td align="right">270.65</td>
 <td align="right">80.00</td>
-<td align="right"><span class="math inline">\(1.03 \times
+<td align="right"><span class="math inline">\(\small 1.03 \times
 10^{-3}\)</span></td>
 <td align="right">329.80</td>
 </tr>
@@ -538,7 +538,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">60000</td>
 <td align="right">247.02</td>
 <td align="right">22.00</td>
-<td align="right"><span class="math inline">\(0.310 \times
+<td align="right"><span class="math inline">\(\small 0.310 \times
 10^{-3}\)</span></td>
 <td align="right">315.07</td>
 </tr>
@@ -546,7 +546,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">70000</td>
 <td align="right">219.59</td>
 <td align="right">5.22</td>
-<td align="right"><span class="math inline">\(0.0828 \times
+<td align="right"><span class="math inline">\(\small 0.0828 \times
 10^{-3}\)</span></td>
 <td align="right">297.06</td>
 </tr>
@@ -554,7 +554,7 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <td align="right">80000</td>
 <td align="right">198.64</td>
 <td align="right">1.05</td>
-<td align="right"><span class="math inline">\(0.0185 \times
+<td align="right"><span class="math inline">\(\small 0.0185 \times
 10^{-3}\)</span></td>
 <td align="right">282.54</td>
 </tr>
@@ -565,11 +565,11 @@ notation. For this range of values, a fixed exponent of <span class="math inline
 <h2>Integer column</h2>
 <p>I treat the altitude as an integer, convert from meters to
 kilometers, and format in integer form (zero decimal places).</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format one column as an integer</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">$</span>alt <span class="ot">&lt;-</span> <span class="fu">format_decimal</span>(DT<span class="sc">$</span>alt <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">0</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Format one column as an integer</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>DT<span class="sc">$</span>alt <span class="ot">&lt;-</span> <span class="fu">format_decimal</span>(DT<span class="sc">$</span>alt <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">0</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -585,21 +585,21 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(0\)</span></td>
 <td align="right">288.15</td>
 <td align="right">101300.00</td>
-<td align="right"><span class="math inline">\(1.23\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.23\)</span></td>
 <td align="right">340.29</td>
 </tr>
 <tr class="even">
 <td align="right"><span class="math inline">\(10\)</span></td>
 <td align="right">223.25</td>
 <td align="right">26500.00</td>
-<td align="right"><span class="math inline">\(0.414\)</span></td>
+<td align="right"><span class="math inline">\(\small 0.414\)</span></td>
 <td align="right">299.53</td>
 </tr>
 <tr class="odd">
 <td align="right"><span class="math inline">\(20\)</span></td>
 <td align="right">216.65</td>
 <td align="right">5529.00</td>
-<td align="right"><span class="math inline">\(88.9 \times
+<td align="right"><span class="math inline">\(\small 88.9 \times
 10^{-3}\)</span></td>
 <td align="right">295.07</td>
 </tr>
@@ -607,7 +607,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(30\)</span></td>
 <td align="right">226.51</td>
 <td align="right">1197.00</td>
-<td align="right"><span class="math inline">\(18.4 \times
+<td align="right"><span class="math inline">\(\small 18.4 \times
 10^{-3}\)</span></td>
 <td align="right">301.71</td>
 </tr>
@@ -615,7 +615,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(40\)</span></td>
 <td align="right">250.35</td>
 <td align="right">287.00</td>
-<td align="right"><span class="math inline">\(4.00 \times
+<td align="right"><span class="math inline">\(\small 4.00 \times
 10^{-3}\)</span></td>
 <td align="right">317.19</td>
 </tr>
@@ -623,7 +623,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(50\)</span></td>
 <td align="right">270.65</td>
 <td align="right">80.00</td>
-<td align="right"><span class="math inline">\(1.03 \times
+<td align="right"><span class="math inline">\(\small 1.03 \times
 10^{-3}\)</span></td>
 <td align="right">329.80</td>
 </tr>
@@ -631,7 +631,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(60\)</span></td>
 <td align="right">247.02</td>
 <td align="right">22.00</td>
-<td align="right"><span class="math inline">\(0.310 \times
+<td align="right"><span class="math inline">\(\small 0.310 \times
 10^{-3}\)</span></td>
 <td align="right">315.07</td>
 </tr>
@@ -639,7 +639,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(70\)</span></td>
 <td align="right">219.59</td>
 <td align="right">5.22</td>
-<td align="right"><span class="math inline">\(0.0828 \times
+<td align="right"><span class="math inline">\(\small 0.0828 \times
 10^{-3}\)</span></td>
 <td align="right">297.06</td>
 </tr>
@@ -647,7 +647,7 @@ kilometers, and format in integer form (zero decimal places).</p>
 <td align="right"><span class="math inline">\(80\)</span></td>
 <td align="right">198.64</td>
 <td align="right">1.05</td>
-<td align="right"><span class="math inline">\(0.0185 \times
+<td align="right"><span class="math inline">\(\small 0.0185 \times
 10^{-3}\)</span></td>
 <td align="right">282.54</td>
 </tr>
@@ -659,14 +659,14 @@ kilometers, and format in integer form (zero decimal places).</p>
 <p>The temperature and speed of sound columns can both be formatted to
 one decimal place. Use <code>lapply()</code> to format multiple columns
 in the same way.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name the columns to be formatted</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;temp&quot;</span>, <span class="st">&quot;sound&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Use data.table .SD syntax with lapply()</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:</span><span class="er">=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_decimal</span>(x, <span class="dv">1</span>)), .SDcols <span class="ot">=</span> cols_to_format]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Name the columns to be formatted</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>cols_to_format <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;temp&quot;</span>, <span class="st">&quot;sound&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Use data.table .SD syntax with lapply()</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>DT[, (cols_to_format) <span class="sc">:=</span> <span class="fu">lapply</span>(.SD, <span class="cf">function</span>(x) <span class="fu">format_decimal</span>(x, <span class="dv">1</span>)), .SDcols <span class="ot">=</span> cols_to_format]</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -682,21 +682,21 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(0\)</span></td>
 <td align="right"><span class="math inline">\(288.1\)</span></td>
 <td align="right">101300.00</td>
-<td align="right"><span class="math inline">\(1.23\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.23\)</span></td>
 <td align="right"><span class="math inline">\(340.3\)</span></td>
 </tr>
 <tr class="even">
 <td align="right"><span class="math inline">\(10\)</span></td>
 <td align="right"><span class="math inline">\(223.2\)</span></td>
 <td align="right">26500.00</td>
-<td align="right"><span class="math inline">\(0.414\)</span></td>
+<td align="right"><span class="math inline">\(\small 0.414\)</span></td>
 <td align="right"><span class="math inline">\(299.5\)</span></td>
 </tr>
 <tr class="odd">
 <td align="right"><span class="math inline">\(20\)</span></td>
 <td align="right"><span class="math inline">\(216.7\)</span></td>
 <td align="right">5529.00</td>
-<td align="right"><span class="math inline">\(88.9 \times
+<td align="right"><span class="math inline">\(\small 88.9 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(295.1\)</span></td>
 </tr>
@@ -704,7 +704,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(30\)</span></td>
 <td align="right"><span class="math inline">\(226.5\)</span></td>
 <td align="right">1197.00</td>
-<td align="right"><span class="math inline">\(18.4 \times
+<td align="right"><span class="math inline">\(\small 18.4 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(301.7\)</span></td>
 </tr>
@@ -712,7 +712,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(40\)</span></td>
 <td align="right"><span class="math inline">\(250.3\)</span></td>
 <td align="right">287.00</td>
-<td align="right"><span class="math inline">\(4.00 \times
+<td align="right"><span class="math inline">\(\small 4.00 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(317.2\)</span></td>
 </tr>
@@ -720,7 +720,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(50\)</span></td>
 <td align="right"><span class="math inline">\(270.6\)</span></td>
 <td align="right">80.00</td>
-<td align="right"><span class="math inline">\(1.03 \times
+<td align="right"><span class="math inline">\(\small 1.03 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(329.8\)</span></td>
 </tr>
@@ -728,7 +728,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(60\)</span></td>
 <td align="right"><span class="math inline">\(247.0\)</span></td>
 <td align="right">22.00</td>
-<td align="right"><span class="math inline">\(0.310 \times
+<td align="right"><span class="math inline">\(\small 0.310 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(315.1\)</span></td>
 </tr>
@@ -736,7 +736,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(70\)</span></td>
 <td align="right"><span class="math inline">\(219.6\)</span></td>
 <td align="right">5.22</td>
-<td align="right"><span class="math inline">\(0.0828 \times
+<td align="right"><span class="math inline">\(\small 0.0828 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(297.1\)</span></td>
 </tr>
@@ -744,7 +744,7 @@ in the same way.</p>
 <td align="right"><span class="math inline">\(80\)</span></td>
 <td align="right"><span class="math inline">\(198.6\)</span></td>
 <td align="right">1.05</td>
-<td align="right"><span class="math inline">\(0.0185 \times
+<td align="right"><span class="math inline">\(\small 0.0185 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(282.5\)</span></td>
 </tr>
@@ -756,21 +756,21 @@ in the same way.</p>
 <p>The pressure column spans several orders of magnitude. I format these
 numbers differently depending on the range they occupy. For numbers in
 the thousands, I add a “big mark” to make them easier to read.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hundreds and higher, integers. Create a temporary variable</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>DT[pres <span class="sc">&gt;</span> <span class="dv">99</span>, temp_pres <span class="sc">:</span><span class="er">=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">0</span>, <span class="at">big_mark =</span> <span class="st">&quot;,&quot;</span>)]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Units place or lower, 2 decimal places</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>DT[pres <span class="sc">&lt;=</span> <span class="dv">10</span>, temp_pres <span class="sc">:</span><span class="er">=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">2</span>)]</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># In-between those two ranges, 1 decimal place</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>DT[pres <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">&amp;</span> pres <span class="sc">&lt;=</span> <span class="dv">99</span>, temp_pres <span class="sc">:</span><span class="er">=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">1</span>)]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Overwrite the original and delete the temporary column</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>DT[, pres <span class="sc">:</span><span class="er">=</span> temp_pres]</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>DT[, temp_pres <span class="sc">:</span><span class="er">=</span> <span class="cn">NULL</span>]</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Hundreds and higher, integers. Create a temporary variable</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>DT[pres <span class="sc">&gt;</span> <span class="dv">99</span>, temp_pres <span class="sc">:=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">0</span>, <span class="at">big_mark =</span> <span class="st">&quot;,&quot;</span>)]</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co"># Units place or lower, 2 decimal places</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>DT[pres <span class="sc">&lt;=</span> <span class="dv">10</span>, temp_pres <span class="sc">:=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">2</span>)]</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co"># In-between those two ranges, 1 decimal place</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>DT[pres <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">&amp;</span> pres <span class="sc">&lt;=</span> <span class="dv">99</span>, temp_pres <span class="sc">:=</span> <span class="fu">format_decimal</span>(pres, <span class="dv">1</span>)]</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Overwrite the original and delete the temporary column</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>DT[, pres <span class="sc">:=</span> temp_pres]</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>DT[, temp_pres <span class="sc">:=</span> <span class="cn">NULL</span>]</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT, <span class="at">align =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -786,21 +786,21 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(0\)</span></td>
 <td align="right"><span class="math inline">\(288.1\)</span></td>
 <td align="right"><span class="math inline">\(101,300\)</span></td>
-<td align="right"><span class="math inline">\(1.23\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.23\)</span></td>
 <td align="right"><span class="math inline">\(340.3\)</span></td>
 </tr>
 <tr class="even">
 <td align="right"><span class="math inline">\(10\)</span></td>
 <td align="right"><span class="math inline">\(223.2\)</span></td>
 <td align="right"><span class="math inline">\(26,500\)</span></td>
-<td align="right"><span class="math inline">\(0.414\)</span></td>
+<td align="right"><span class="math inline">\(\small 0.414\)</span></td>
 <td align="right"><span class="math inline">\(299.5\)</span></td>
 </tr>
 <tr class="odd">
 <td align="right"><span class="math inline">\(20\)</span></td>
 <td align="right"><span class="math inline">\(216.7\)</span></td>
 <td align="right"><span class="math inline">\(5,529\)</span></td>
-<td align="right"><span class="math inline">\(88.9 \times
+<td align="right"><span class="math inline">\(\small 88.9 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(295.1\)</span></td>
 </tr>
@@ -808,7 +808,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(30\)</span></td>
 <td align="right"><span class="math inline">\(226.5\)</span></td>
 <td align="right"><span class="math inline">\(1,197\)</span></td>
-<td align="right"><span class="math inline">\(18.4 \times
+<td align="right"><span class="math inline">\(\small 18.4 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(301.7\)</span></td>
 </tr>
@@ -816,7 +816,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(40\)</span></td>
 <td align="right"><span class="math inline">\(250.3\)</span></td>
 <td align="right"><span class="math inline">\(287\)</span></td>
-<td align="right"><span class="math inline">\(4.00 \times
+<td align="right"><span class="math inline">\(\small 4.00 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(317.2\)</span></td>
 </tr>
@@ -824,7 +824,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(50\)</span></td>
 <td align="right"><span class="math inline">\(270.6\)</span></td>
 <td align="right"><span class="math inline">\(80.0\)</span></td>
-<td align="right"><span class="math inline">\(1.03 \times
+<td align="right"><span class="math inline">\(\small 1.03 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(329.8\)</span></td>
 </tr>
@@ -832,7 +832,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(60\)</span></td>
 <td align="right"><span class="math inline">\(247.0\)</span></td>
 <td align="right"><span class="math inline">\(22.0\)</span></td>
-<td align="right"><span class="math inline">\(0.310 \times
+<td align="right"><span class="math inline">\(\small 0.310 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(315.1\)</span></td>
 </tr>
@@ -840,7 +840,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(70\)</span></td>
 <td align="right"><span class="math inline">\(219.6\)</span></td>
 <td align="right"><span class="math inline">\(5.22\)</span></td>
-<td align="right"><span class="math inline">\(0.0828 \times
+<td align="right"><span class="math inline">\(\small 0.0828 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(297.1\)</span></td>
 </tr>
@@ -848,7 +848,7 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <td align="right"><span class="math inline">\(80\)</span></td>
 <td align="right"><span class="math inline">\(198.6\)</span></td>
 <td align="right"><span class="math inline">\(1.05\)</span></td>
-<td align="right"><span class="math inline">\(0.0185 \times
+<td align="right"><span class="math inline">\(\small 0.0185 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(282.5\)</span></td>
 </tr>
@@ -859,27 +859,27 @@ the thousands, I add a “big mark” to make them easier to read.</p>
 <h2><code>knitr::kable()</code> options</h2>
 <p>I use some <code>knitr::kable()</code> arguments to change the header
 and add a caption.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Render in document</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;r&quot;</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Table 1. Atmospheric varables as a function of altitude&quot;</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Altitude [km]&quot;</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Temperature [K]&quot;</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Pressure [Pa]&quot;</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Density [kg/m$^3$]&quot;</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Speed of sound [m/s]&quot;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Render in document</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(DT,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">align =</span> <span class="st">&quot;r&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Table 1. Atmospheric varables as a function of altitude&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    <span class="st">&quot;Altitude [km]&quot;</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    <span class="st">&quot;Temperature [K]&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>    <span class="st">&quot;Pressure [Pa]&quot;</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    <span class="st">&quot;Density [kg/m$^3$]&quot;</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    <span class="st">&quot;Speed of sound [m/s]&quot;</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  )</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>)</span></code></pre></div>
 <table>
 <caption>Table 1. Atmospheric varables as a function of
 altitude</caption>
 <colgroup>
-<col width="15%" />
-<col width="17%" />
-<col width="15%" />
-<col width="26%" />
-<col width="23%" />
+<col width="14%" />
+<col width="16%" />
+<col width="14%" />
+<col width="32%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -895,21 +895,21 @@ altitude</caption>
 <td align="right"><span class="math inline">\(0\)</span></td>
 <td align="right"><span class="math inline">\(288.1\)</span></td>
 <td align="right"><span class="math inline">\(101,300\)</span></td>
-<td align="right"><span class="math inline">\(1.23\)</span></td>
+<td align="right"><span class="math inline">\(\small 1.23\)</span></td>
 <td align="right"><span class="math inline">\(340.3\)</span></td>
 </tr>
 <tr class="even">
 <td align="right"><span class="math inline">\(10\)</span></td>
 <td align="right"><span class="math inline">\(223.2\)</span></td>
 <td align="right"><span class="math inline">\(26,500\)</span></td>
-<td align="right"><span class="math inline">\(0.414\)</span></td>
+<td align="right"><span class="math inline">\(\small 0.414\)</span></td>
 <td align="right"><span class="math inline">\(299.5\)</span></td>
 </tr>
 <tr class="odd">
 <td align="right"><span class="math inline">\(20\)</span></td>
 <td align="right"><span class="math inline">\(216.7\)</span></td>
 <td align="right"><span class="math inline">\(5,529\)</span></td>
-<td align="right"><span class="math inline">\(88.9 \times
+<td align="right"><span class="math inline">\(\small 88.9 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(295.1\)</span></td>
 </tr>
@@ -917,7 +917,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(30\)</span></td>
 <td align="right"><span class="math inline">\(226.5\)</span></td>
 <td align="right"><span class="math inline">\(1,197\)</span></td>
-<td align="right"><span class="math inline">\(18.4 \times
+<td align="right"><span class="math inline">\(\small 18.4 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(301.7\)</span></td>
 </tr>
@@ -925,7 +925,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(40\)</span></td>
 <td align="right"><span class="math inline">\(250.3\)</span></td>
 <td align="right"><span class="math inline">\(287\)</span></td>
-<td align="right"><span class="math inline">\(4.00 \times
+<td align="right"><span class="math inline">\(\small 4.00 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(317.2\)</span></td>
 </tr>
@@ -933,7 +933,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(50\)</span></td>
 <td align="right"><span class="math inline">\(270.6\)</span></td>
 <td align="right"><span class="math inline">\(80.0\)</span></td>
-<td align="right"><span class="math inline">\(1.03 \times
+<td align="right"><span class="math inline">\(\small 1.03 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(329.8\)</span></td>
 </tr>
@@ -941,7 +941,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(60\)</span></td>
 <td align="right"><span class="math inline">\(247.0\)</span></td>
 <td align="right"><span class="math inline">\(22.0\)</span></td>
-<td align="right"><span class="math inline">\(0.310 \times
+<td align="right"><span class="math inline">\(\small 0.310 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(315.1\)</span></td>
 </tr>
@@ -949,7 +949,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(70\)</span></td>
 <td align="right"><span class="math inline">\(219.6\)</span></td>
 <td align="right"><span class="math inline">\(5.22\)</span></td>
-<td align="right"><span class="math inline">\(0.0828 \times
+<td align="right"><span class="math inline">\(\small 0.0828 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(297.1\)</span></td>
 </tr>
@@ -957,7 +957,7 @@ altitude</caption>
 <td align="right"><span class="math inline">\(80\)</span></td>
 <td align="right"><span class="math inline">\(198.6\)</span></td>
 <td align="right"><span class="math inline">\(1.05\)</span></td>
-<td align="right"><span class="math inline">\(0.0185 \times
+<td align="right"><span class="math inline">\(\small 0.0185 \times
 10^{-3}\)</span></td>
 <td align="right"><span class="math inline">\(282.5\)</span></td>
 </tr>

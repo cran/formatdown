@@ -130,3 +130,52 @@ knitr::kable(
   col.names = c("Altitude", "Temperature", "Pressure", "Density", "Speed of sound")
 )
 
+## -----------------------------------------------------------------------------
+# Start with the original density vector
+x <- atmos$dens
+
+# Assign the original units
+units(x) <- "kg/m^3"
+
+# Display a representative value
+x[5]
+
+## -----------------------------------------------------------------------------
+# Convert to US Customary units
+display_units <- "lb ft-3"
+units(x) <- display_units
+
+# Display the same representative value
+x[5]
+
+## -----------------------------------------------------------------------------
+# Convert the vector to numeric values
+x <- as.numeric(x)
+
+# Display the representative value
+x[5]
+
+## -----------------------------------------------------------------------------
+# Apply power of ten notation using format_power()
+x <- format_power(x, digits = 3, format = "sci")
+
+# Display the representative value
+x[5]
+
+## -----------------------------------------------------------------------------
+# Append units string to value strings
+x <- paste0(x, " [", display_units, "]")
+
+# Display the representative value
+x[5]
+
+## -----------------------------------------------------------------------------
+# Substitute for column in the data frame from above
+DT[, dens := x]
+
+knitr::kable(
+  DT,
+  align = "r",
+  col.names = c("Altitude", "Temperature", "Pressure", "Density", "Speed of sound")
+)
+

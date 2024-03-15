@@ -61,8 +61,25 @@ DT <- data.table(
 knitr::kable(DT, align = "r", col.names = c("scientific notation", "engineering notation"))
 
 ## -----------------------------------------------------------------------------
+x <- c(1.2E-6, 3.4E+0, 5.6E+13)
+
+# Compare formats
+DT <- data.table(
+  scriptsize = format_power(x, 2, size = "scriptsize"),
+  small      = format_power(x, 2, size = "small"),
+  normalsize = format_power(x, 2, size = "normalsize"),
+  large      = format_power(x, 2, size = "large"),
+  huge       = format_power(x, 2, size = "huge")
+)
+knitr::kable(DT, align = "r")
+
+## -----------------------------------------------------------------------------
 format_power(0.0678, 3, format = "sci", omit_power = c(-2, 2))
 format_power(0.0678, 3, format = "sci", omit_power = c(-1, 2))
+
+## -----------------------------------------------------------------------------
+format_power(6789, 3, format = "sci", omit_power = c(-1, 2))
+format_power(6789, 3, format = "sci", omit_power = c(-1, 3))
 
 ## -----------------------------------------------------------------------------
 # Omit no values from power-of-ten notation
@@ -73,11 +90,16 @@ DT <- data.table(
 knitr::kable(DT, align = "r", col.names = c("scientific notation", "engineering notation"))
 
 ## -----------------------------------------------------------------------------
+x <- c(3.2e-7, 4.5e-6, 4.5e-5, 6.7e-4, 3, 37800)
+format_power(x, 3, format = "sci", omit_power = c(-5, -5))
+format_power(x, 3, format = "engr", omit_power = c(-5, -5))
+
+## -----------------------------------------------------------------------------
 # Copy to avoid by-reference changes
 DT <- copy(water)
 
 # Convert temperature from K to C
-DT <- DT[, .(temp = round(temp - 273.15), visc)]
+DT <- DT[, .(visc)]
 
 # Create two columns to compare
 DT[, ver1 := format_power(visc, 3)]
@@ -85,22 +107,21 @@ DT[, ver2 := format_power(visc, 3, set_power = -3)]
 
 ## -----------------------------------------------------------------------------
 knitr::kable(DT, align = "r", col.names = c(
-  "Temperature [C]", "Viscosity [Pa s]", "engineering notation", "with fixed exponent"
+  "$\\small\\mu$ [Pa s]", "engr notation", "set power"
 ))
 
 ## -----------------------------------------------------------------------------
 DT <- copy(atmos)
-DT <- DT[, .(alt = alt / 1000, dens)]
+DT <- DT[, .(dens)]
 DT[, ver1 := format_power(dens, 3)]
 DT[, ver2 := format_power(dens, 3, set_power = -3)]
 DT[, ver3 := format_power(dens, 3, set_power = -3, omit_power = NULL)]
 
 kable(DT, align = "r", col.names = c(
-  "Altitude [km]",
-  "Density [kg/m$^3$]",
-  "engineering notation",
-  "with fixed exponent",
-  "omit decimals"
+  "$\\small\\rho$ [kg/m$^3$]",
+  "engr notation",
+  "set power",
+  "set power, omit none"
 ))
 
 ## -----------------------------------------------------------------------------
@@ -164,8 +185,45 @@ cols_we_want <- c("temp", "pres", "dens")
 
 # Format selected columns, retain all columns
 DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
+
+# Treat the gas constant with 3 digits
+DT$sp_gas <- format_power(DT$sp_gas, digits = 3)
 DT[]
 
 # Render in document
 knitr::kable(DT, align = "r")
+
+## -----------------------------------------------------------------------------
+# Assign arguments to be used from this point forward in the script
+options(formatdown.power.format = "sci")
+options(formatdown.font.size = "scriptsize")
+
+# Copy to avoid "by reference" changes to air_meas
+DT <- copy(air_meas)
+
+# Format selected columns to 4 digits
+cols_we_want <- c("temp", "pres", "dens")
+DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
+
+# Treat the gas constant with 3 digits
+DT$sp_gas <- format_power(DT$sp_gas, digits = 3)
+
+# Format selected columns as text
+cols_we_want <- c("date", "trial", "humid")
+DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_text(x)), .SDcols = cols_we_want]
+
+# Render in document
+knitr::kable(DT,
+  align = "r",
+  caption = "Table 1: Multiple readings for calculating air density",
+  col.names = c(
+    "Date",
+    "Trial",
+    "Humidity",
+    "$\\small\\theta$ [K]",
+    "$\\small P$ [Pa]",
+    "$\\small R_{sp}$ [J kg$^{-1}$K$^{-1}$]",
+    "$\\small\\rho$ [kg/m$^3$]"
+  )
+)
 
