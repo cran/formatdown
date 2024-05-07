@@ -1,10 +1,16 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  tidy = TRUE
 )
 
-library("formatdown")
+# to knit "child" Rmd files
+knitr::opts_knit$set(root.dir = "../")
+
+library(formatdown)
+library(data.table)
+library(knitr)
 
 options(
   datatable.print.nrows = 15,
@@ -13,104 +19,93 @@ options(
 )
 
 ## -----------------------------------------------------------------------------
-library("formatdown")
-library("data.table")
-library("knitr")
+# make header table, but scan it and save as png
 
-
-
-options(formatdown.font.size = "small")
-
-## -----------------------------------------------------------------------------
-x <- c("low", "med", "high")
-
-# Compare formats
-DT <- data.table(
-  scriptsize = format_text(x, size = "scriptsize"),
-  small      = format_text(x, size = "small"),
-  normalsize = format_text(x, size = "normalsize"),
-  large      = format_text(x, size = "large"),
-  huge       = format_text(x, size = "huge")
-)
-knitr::kable(DT, align = "r")
+# Markup <- c("$\\small\\mathtt{\\verb+\\mathrm{...}+}$", "$\\small\\mathtt{\\verb+\\mathit{...}+}$", "$\\small\\mathtt{\\verb+\\mathbf{...}+}$", "$\\small\\mathtt{\\verb+\\mathsf{...}+}$", "$\\small\\mathtt{\\verb+\\mathtt{...}+}$")
+#
+# Style <- c("$\\small\\mathrm{plain}$", "$\\small\\mathit{italic}$", "$\\small\\mathbf{bold}$", "$\\small\\mathsf{sans\\ serif}$", "$\\small\\mathtt{typewriter}$")
+#
+# DT <- data.table(Markup, Style)
+# knitr::kable(DT, align = "l") |>
+#   kableExtra::kable_styling(font_size = 16, position = "left") |>
+#   kableExtra::column_spec(1:2, width = "2in")
 
 ## -----------------------------------------------------------------------------
-# Compare formats
-DT <- data.table(
-  plain  = format_text(x, face = "plain"),
-  italic = format_text(x, face = "italic"),
-  bold   = format_text(x, face = "bold"),
-  sans   = format_text(x, face = "sans"),
-  mono   = format_text(x, face = "mono")
-)
-knitr::kable(DT, align = "r")
+#  library("formatdown")
+#  library("data.table")
+#  library("knitr")
 
 ## -----------------------------------------------------------------------------
+# 1. One string
+x <- "Alum 6061"
+format_text(x)
+
+# 2. String vector
+y <- c("Alum 6061", "Carbon steel", "Ni-Cr-Fe alloy")
+format_text(y)
+
+## -----------------------------------------------------------------------------
+# 3. Character class
+x <- c("abc", "def", NA_character_)
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 4. Numeric class
+x <- c(10, 3E-5, 4.56E+10)
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 5. Logical class
+x <- TRUE
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 6. Complex class
+x <- 2 + 3i
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 7. Date class
+x <- Sys.Date()
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 8 Factor class
+x <- as.factor(c("low", "med", "high"))
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 9. NULL class
+x <- NULL
+format_text(x)
+
+## -----------------------------------------------------------------------------
+# 10. Compare available typefaces
+x <- c("One day", "at a", "time.")
+plain <- format_text(x, face = "plain", size = "small")
+italic <- format_text(x, face = "italic", size = "small")
+bold <- format_text(x, face = "bold", size = "small")
+sans <- format_text(x, face = "sans", size = "small")
+mono <- format_text(x, face = "mono", size = "small")
+DT <- data.table(plain, italic, bold, sans, mono)
+knitr::kable(DT, align = "l", caption = "Example 10.")
+
+## -----------------------------------------------------------------------------
+# 11. Two equivalent values for argument
+hello_text <- "Hello world!"
+p <- format_text(hello_text, face = "plain")
+q <- format_text(hello_text, face = "\\mathrm")
+
+# Demonstrate equivalence
+all.equal(p, q)
+
+## -----------------------------------------------------------------------------
+# 12. Special characters NOT escaped
 format_text("R_e")
 format_text("m^3")
 
 ## -----------------------------------------------------------------------------
+# 13. Special characters escaped
 format_text("R\\_e")
-format_text("m\\verb|^|3")
-
-## -----------------------------------------------------------------------------
-# Copy to avoid "by reference" changes to air_meas
-DT <- copy(air_meas)
-
-# Format selected columns to 4 digits
-cols_we_want <- c("temp", "pres", "dens")
-DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
-
-# Treat the gas constant with 3 digits
-DT$sp_gas <- format_power(DT$sp_gas, digits = 3)
-
-# View the result
-DT[]
-
-# Render in document
-knitr::kable(DT,
-  align = "r",
-  caption = "Table 1. Numerical columns formatted; text columns unformatted.",
-)
-
-## -----------------------------------------------------------------------------
-# Format selected columns as text
-cols_we_want <- c("date", "trial", "humid")
-DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_text(x)), .SDcols = cols_we_want]
-
-# View the result
-DT[]
-
-# Render in document
-knitr::kable(DT,
-  align = "r",
-  caption = "Table 2. Text columns formatted to match",
-)
-
-## -----------------------------------------------------------------------------
-# Assign arguments to be used from this point forward in the script
-options(
-  formatdown.font.size = "large",
-  formatdown.font.face = "italic"
-)
-
-# Copy to avoid "by reference" changes to air_meas
-DT <- copy(air_meas)
-
-# Format selected columns to 4 digits
-cols_we_want <- c("temp", "pres", "dens")
-DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_power(x, 4)), .SDcols = cols_we_want]
-
-# Treat the gas constant with 3 digits
-DT$sp_gas <- format_power(DT$sp_gas, digits = 3)
-
-# Format selected columns as text
-cols_we_want <- c("date", "trial", "humid")
-DT <- DT[, (cols_we_want) := lapply(.SD, function(x) format_text(x)), .SDcols = cols_we_want]
-
-# Render in document
-knitr::kable(DT,
-  align = "r",
-  caption = "Table 3. Using `option()` for size size and face",
-)
+format_text("m\\verb+^+3")
 

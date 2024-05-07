@@ -1,6 +1,10 @@
 
 #' Format decimal or integer values
 #'
+#' This function is deprecated because it's a special case of the new
+#' [format_numbers()] function. In addition, the new function includes features
+#' not available in the deprecated function.
+#'
 #' Convert the elements of a numerical vector to character strings in which the
 #' numbers are formatted using decimal notation and delimited for rendering as
 #' inline equations in an R Markdown document.
@@ -28,19 +32,33 @@
 #'   right can be defined explicitly in a character vector of length two, e.g.,
 #'   `c("$", "$")` or `c("\\(", "\\)")`. Custom delimiters can be assigned to
 #'   suit the markup environment. Use argument by name.
-#' @return A character vector with the following properties:
-#' \itemize{
-#'   \item Numbers represented in integer or decimal notation.
-#'   \item Elements delimited as inline math markup.
-#' }
-#' @family format_*
-#' @example man/examples/examples_format_decimal.R
+#'
+#' @return A character vector with numbers represented in decimal
+#'      notation and delimited as inline math markup.
+#'
+#' @name format_decimal-deprecated
+#' @usage format_decimal(x, digits, ..., big_mark, delim)
+#' @seealso \code{\link{formatdown-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname formatdown-deprecated
+#' @section `format_decimal`:
+#' For `format_decimal()`, use `format_dcml()` or
+#' `format_numbers(..., format = "dcml")`
+#'
 #' @export
 format_decimal <- function(x,
                            digits = 4,
                            ...,
                            big_mark = NULL,
                            delim = "$") {
+
+  .Deprecated(new = "format_numbers",
+              package = "formatdown",
+              msg = '`format_decimal()` is deprecated. Use `format_numbers()`
+              which offers additional arguments and access to package options.',
+              old = "format_decimal")
 
   # Overhead ----------------------------------------------------------------
 

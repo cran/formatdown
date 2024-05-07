@@ -1,6 +1,10 @@
 
 #' Format powers of ten
 #'
+#' This function is deprecated because it's a special case of the new
+#' [format_numbers()] function. In addition, the new function includes features
+#' not available in the deprecated function.
+#'
 #' Convert the elements of a numerical vector to character strings in which the
 #' numbers are formatted using powers-of-ten notation in scientific or
 #' engineering form and delimited for rendering as inline equations in an R
@@ -52,14 +56,19 @@
 #'   right can be defined explicitly in a character vector of length two, e.g.,
 #'   `c("$", "$")` or `c("\\(", "\\)")`. Custom delimiters can be assigned to
 #'   suit the markup environment. Use argument by name.
-#' @return A character vector with the following properties:
-#' \itemize{
-#'   \item Numbers represented in powers of ten notation except for those
-#'           with exponents in the range specified in `omit_power`
-#'   \item Elements delimited as inline math markup.
-#' }
-#' @family format_*
-#' @example man/examples/examples_format_power.R
+#' @return A character vector with numbers represented in powers of ten
+#'      notation and delimited as inline math markup.
+#'
+#' @name format_power-deprecated
+#' @usage format_power(x, digits, ..., format, size, omit_power, set_power, delim)
+#' @seealso \code{\link{formatdown-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname formatdown-deprecated
+#' @section `format_power`:
+#' For `format_power()`, use `format_numbers()`, `format_sci()` or
+#' `format_engr()`.
 #' @export
 format_power <- function(x,
                          digits = 4,
@@ -69,6 +78,13 @@ format_power <- function(x,
                          omit_power = c(-1, 2),
                          set_power = NULL,
                          delim = "$") {
+
+  # deprecated
+  .Deprecated(new = "format_numbers",
+              package = "formatdown",
+              msg = '`format_power()` is deprecated. Use `format_numbers()`
+              which offers additional arguments and access to package options.',
+              old = "format_power")
 
   # Overhead ----------------------------------------------------------------
 

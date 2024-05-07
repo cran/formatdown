@@ -2,42 +2,39 @@
 % Please edit documentation in R/format_text.R
 \name{format_text}
 \alias{format_text}
-\title{Format text to match the math font}
+\title{Format text}
 \usage{
-format_text(x, ..., face = NULL, size = NULL, delim = "$")
+format_text(
+  x,
+  face = "plain",
+  ...,
+  size = formatdown_options("size"),
+  delim = formatdown_options("delim"),
+  whitespace = formatdown_options("whitespace")
+)
 }
 \arguments{
 \item{x}{Vector to be formatted.}
 
+\item{face}{Font face. Determines the font face macro inside the math
+delimiters. Possible values are "plain" (default), "italic", "bold",
+"sans", or "mono". One may assign instead the corresponding LaTeX-style
+markup itself, e.g., \verb{\\\\mathrm}, \verb{\\\\mathit}, \verb{\\\\mathbf}, \verb{\\\\mathsf}, or
+\verb{\\\\mathtt}.}
+
 \item{...}{Not used, force later arguments to be used by name.}
 
-\item{face}{Font face. Possible values are "plain", "italic", "bold", "sans",
-or "mono". Can also be set as a global option, for example,
-\code{options(formatdown.font.face = "sans")} that can be overwritten in an
-individual function call.}
-
-\item{size}{Font size. Possible values are "scriptsize", "small" (default),
-"normalsize", "large", and "huge". which correspond to selected
-LaTeX font size values. Can also be set as a global option, for example,
-\code{options(formatdown.font.size = "normalsize")} that can be overwritten
-in an individual function call.}
-
-\item{delim}{Character vector (length 1 or 2) defining the delimiters for
-marking up inline math. Possible values include \code{"$"} or \code{"\\\\("}, both of
-which create appropriate left and right delimiters. Alternatively, left and
-right can be defined explicitly in a character vector of length two, e.g.,
-\code{c("$", "$")} or \code{c("\\\\(", "\\\\)")}. Custom delimiters can be assigned to
-suit the markup environment. Use argument by name.}
+\item{size, delim, whitespace}{Used to format the math-delimited character
+strings. For details, see the help page for \code{formatdown_options()}.}
 }
 \value{
 A character vector with elements delimited as inline math markup
-in plain, italic, or bold font face.
+in plain, italic, sans serif, bold, or monospace font face.
 }
 \description{
-Format a vector as character strings within math delimiters for
-rendering in an R Markdown document. The formatting is particularly useful
-for formatting text columns in a table in which numerical columns
-have been formatted using \code{format_power()} or \code{format_decimal()}.
+Convert a character vector to "math text" delimited for rendering as inline
+equations in an R markdown document. Particularly useful for matching the
+font face of character columns to that of numerical columns in a table.
 }
 \details{
 Given a scalar, vector, or data frame column, \code{format_text()} converts its
@@ -45,18 +42,9 @@ argument to a character string of the form \code{"$\\\\mathxx{a}$"} where \code{
 is the element to be formatted and \verb{\\\\mathxx} determines the font face:
 plain type is set by \verb{\\\\mathrm}; italic by \verb{\\\\mathit};
 bold by \verb{\\\\mathbf}; sans serif by \verb{\\\\mathsf}; and monospace (typewriter
-text) by \verb{\\\\mathtt}. The string includes markup delimiters \verb{$...$} for
-rendering as an inline equation in R Markdown or Quarto Markdown document.
-
-Using \code{options()} to assign a value to \code{formatdown.font.face} affects only
-that text formatted using \code{format_text()}. However, using \code{options} to assign
-\code{formatdown.font.size} affects output formatted by \code{format_text()} and
-\code{format_power()}.
-
-Delimiters for inline math markup can be edited if necessary. If the default
-argument fails, try using \code{"\\\\("} as an alternative. If using a custom
-delimiter to suit the markup environment, be sure to escape all special
-symbols.
+text) by \verb{\\\\mathtt}. All strings include markup delimiters \verb{$...$} for
+rendering (in an R markdown or Quarto markdown document) as an inline
+equation.
 }
 \examples{
 # Text vector
@@ -68,7 +56,12 @@ format_text(x)
 # equivalently
 format_text(x, face = "plain")
 
+# input vector
+x <- c("Hello world!", "Goodbye blues!")
+format_text(x)
+
 # argument coerced to character string if possible
+format_text(c(1.2, 2.3, 3.4))
 format_text(x = NA)
 format_text(x = c(TRUE, FALSE, TRUE))
 
@@ -80,15 +73,12 @@ format_text(x, face = "italic")
 format_text(x, face = "bold")
 format_text(x, face = "sans")
 format_text(x, face = "mono")
-
-# alternate delimiter
-format_text(x, delim = "\\\\(")
-
 }
 \seealso{
 Other format_*: 
-\code{\link{format_decimal}()},
-\code{\link{format_power}()},
-\code{\link{format_units}()}
+\code{\link{format_dcml}()},
+\code{\link{format_engr}()},
+\code{\link{format_numbers}()},
+\code{\link{format_sci}()}
 }
 \concept{format_*}

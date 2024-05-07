@@ -2,12 +2,26 @@
 % Please edit documentation in R/formatdown-package.R
 \docType{package}
 \name{formatdown-package}
-\alias{formatdown-package}
 \alias{formatdown}
-\title{Formatting Tools for R Markdown Documents}
+\alias{formatdown-package}
+\title{formatdown: Formatting Numbers in 'rmarkdown' Documents}
 \description{
-Provides a small set of tools for common formatting tasks when writing
-documents in R markdown or Quarto markdown. Works with outputs in html,
-pdf, docx and possibly others.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Provides a small set of tools for formatting numbers in R-markdown documents. Convert a numerical vector to character strings in power-of-ten form, decimal form, or measurement-units form; all are math-delimited for rendering as inline equations. Can also convert text into math-delimited text to match the font face and size of math-delimited numbers. Useful for rendering single numbers in inline R code chunks and for rendering columns in tables.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/graphdr/formatdown/}
+  \item \url{https://graphdr.github.io/formatdown/}
+  \item \url{https://CRAN.R-project.org/package=formatdown}
+  \item Report bugs at \url{https://github.com/graphdr/formatdown/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Richard Layton \email{graphdoctor@gmail.com}
+
 }
 \keyword{internal}

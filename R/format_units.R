@@ -1,6 +1,10 @@
 
 #' Format values with measurement units
 #'
+#' This function is deprecated because it's a special case of the
+#' [format_numbers()] function. Users should finalize the manipulation of
+#' units (using the units package) before invoking a formatdown function.
+#'
 #' Format a vector of numbers as character strings with measurement units
 #' appended via the 'units' package.
 #'
@@ -17,11 +21,11 @@
 #' @param digits Numeric scalar, a positive integer. Applied as the `digits`
 #'   argument of `base::format()`. Enough decimal places are included such that
 #'   the smallest magnitude value has this many significant digits.
-#' @param ... Not used, force later arguments to be used by name.
 #' @param unit Character scalar, units label compatible with 'units' package.
 #'   For `x` class numeric, transform to class units in `unit` measurement
 #'   units. For `x` class units, convert to `unit` measurement units. If empty,
 #'   existing class units retained.
+#' @param ... Not used, force later arguments to be used by name.
 #' @param unit_form Character scalar. Possible values are "standard" (default)
 #'   and "implicit" (implicit exponent form). In standard form, units are
 #'   related with arithmetic symbols for multiplication, division, and powers,
@@ -32,15 +36,31 @@
 #'   `base::format()`. Default is `""`. If a period is selected for `big_mark`,
 #'   the decimal mark is changed to a comma.
 #' @return A character vector of numbers with appended measurement units.
-#' @family format_*
-#' @example man/examples/examples_format_units.R
+#'
+#' @name format_units-deprecated
+#' @usage format_units(x, digits, unit, ..., unit_form, big_mark)
+#' @seealso \code{\link{formatdown-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname formatdown-deprecated
+#' @section `format_units`:
+#' For `format_units()`, use `format_numbers()` after first assigning
+#' physical measurement units using the units package.
+#'
 #' @export
 format_units <- function(x,
                          digits = 1,
-                         ...,
                          unit = NULL,
+                         ...,
                          unit_form = NULL,
                          big_mark = NULL) {
+
+  .Deprecated(new = "format_numbers",
+              package = "formatdown",
+              msg = '`format_units()` is deprecated. Use `format_numbers()`
+              which offers additional arguments and access to package options.',
+              old = "format_units")
 
   # Overhead ----------------------------------------------------------------
 
@@ -71,7 +91,7 @@ format_units <- function(x,
   # Argument checks ---------------------------------------------------------
 
   # x: numeric, not empty. length 1 or more
-  checkmate::qassert(x, "N+")
+  checkmate::qassert(x, "n+")
 
   # digits: numeric, not empty, length 1, between 1 and 20
   checkmate::qassert(digits, "N1")
@@ -119,4 +139,3 @@ format_units <- function(x,
 
   return(x_char)
 }
-

@@ -1,3 +1,13 @@
+# formatdown 0.1.4
+
+2024-05-06
+
+- added `formatdown_options()` to set global options, including the ability to change the decimal marker to a comma instead of a period. 
+- deprecated `format_decimal()`, `format_power()`, and `format_units()`
+- added `format_numbers()` and its convenience wrappers `format_sci()`, `format_engr()`, and `format_dcml()` to replace the deprecated functions and take advantage of the new global options 
+- edited `format_text()` to retain spaces in a character input 
+- updated examples, tests, and vignettes to reflect changes
+
 # formatdown 0.1.3
 
 2024--03--14
@@ -5,7 +15,6 @@
 - add `format_text()` function 
 - add `size` argument to `format_power()`
 - add `signif()` to `format_power()` to enforce significant digits in output before applying `formatC()` 
-- add `options()` to globally set font size and power of ten format arguments
 - correct issue with `omit_power()` argument
 - correct issue with numbers < machine eps
 - add package alias
