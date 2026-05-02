@@ -5,12 +5,16 @@
 #' @param col_name Character, length 1, column name to work on
 #' @noRd
 omit_formatC_extras <- function(DT, col_name) {
+
   # Logical. Identify rows with trailing decimal points
   rows_we_want <- DT[, get(col_name)] %like% "[:.:]$"
+
   # Delete trailing decimal points if any
   DT[rows_we_want, (col_name) := sub("[:.:]", "", get(col_name))]
+
   # Trim space added by formatC if any
-  DT[, (col_name) := trimws(get(col_name), which = "both")]
+  DT[, (col_name) := trimws(get(col_name), which = "l")]
+  return(DT)
 }
 
 #' Surround elements of character vector with inline math delimiters
@@ -90,17 +94,4 @@ param_assert_mark <- function(mark) {
   checkmate::qassert(mark, "s1")
   checkmate::assert_choice(mark, choices = c("thin", "\\\\,", "")
   )
-}
-
-# Arguments after dots must be named
-#'
-#' @param ... Not used
-#' @noRd
-arg_after_dots_named <- function(...){
-stop_if_dots_text <- paste(
-  "Arguments after ... must be named.\n",
-  "* Did you forget to write `arg_name = value`\n",
-  "  for one of the arguments after the dots?*"
-)
-wrapr::stop_if_dot_args(substitute(list(...)), stop_if_dots_text)
 }

@@ -1,11 +1,5 @@
 
 <!-- Edit README.Rmd (not README.md) -->
-<!-- Correcting for problems with LaTeX math in the README file only -->
-<style type="text/css">
-.math {
-  font-size: small;
-}
-</style>
 
 # formatdown <img src="man/figures/logo.png" align="right">
 
@@ -32,9 +26,9 @@ tables.
 
 In professional technical prose, large and small numbers are generally
 typeset using powers of ten notation. For example, Planck’s constant
-would be typeset as $6.63 \times 10^{-34}\>\mathrm{J\,Hz^{-1}}$ rather
-than the familiar forms we use in communicating with computers, such as
-`6.63*10^-34` or `6.63E-34`.
+would be typeset as $6.63 \times 10^{-34}$ J/Hz rather than the familiar
+forms we use in communicating with computers, such as `6.63*10^-34` or
+`6.63E-34`.
 
 The functions in this package help an author of an R markdown document
 convert large and small numbers to character strings, formatted using
@@ -47,23 +41,20 @@ Formatting tools include:
 **`format_numbers()`**  
 Convert a numeric vector to a math-delimited character vector in which
 the numbers can be formatted in scientific or engineering power-of-ten
-notation or in decimal form.
-
-**`format_sci()`**  
-Convenience function. A wrapper around `format_numbers()` for scientific
-notation.
-
-**`format_engr()`**  
-Convenience function. A wrapper around `format_numbers()` for
-engineering notation.
-
-**`format_dcml()`**  
-Convenience function. A wrapper around `format_numbers()` for decimal
-notation.
+notation or in decimal form. Three convenience functions that wrap
+`format_numbers()` are provided as well: `format_sci()` for scientific
+notation, `format_engr()` for engineering notation, and `format_dcml()`
+for decimal notation.
 
 **`format_text()`**  
 Convert a character vector to math-delimited character vector. Useful
 for creating a consistent typeface across all columns of a table.
+
+**`format_nucl()`**  
+Convert a character vector of chemical isotopes in hyphenated form to a
+math-delimited character vector in nuclear form: each element symbol
+with its mass number superscript and the optional atomic number
+subscript.
 
 **`formatdown_options()`**  
 Global options are provided for arguments that users would likely prefer
@@ -101,7 +92,7 @@ format_numbers(x, digits = 4, format = "dcml")
 units(x) <- "Pa"
 units(x) <- "hPa"
 format_dcml(x)
-#> [1] "$1013\\>\\mathrm{hPa}$"
+#> [1] "$1013\\ \\mathrm{hPa}$"
 ```
 
 which, in an `.Rmd` or `.qmd` output document, are rendered using inline
@@ -112,7 +103,7 @@ R code as
 |  scientific | $1.013 \times 10^{5}$ |
 | engineering | $101.3 \times 10^{3}$ |
 |     decimal |              $101300$ |
-|       units |  $1013\>\mathrm{hPa}$ |
+|       units |  $1013\ \mathrm{hPa}$ |
 
 <br>
 
@@ -148,41 +139,44 @@ units(DT$elast_mod) <- "GPa"
 DT$elast_mod <- format_dcml(DT$elast_mod, 3)
 
 # Render in document
-knitr::kable(DT, align = "r", caption = "Table 1: Properties of metals.", col.names = c("Metal",
-    "Density [kg/m$^3$]", "Therm. expan. [m/m K$^{-1}$]", "Therm. cond. [W/m K$^{-1}$]",
-    "Elastic modulus"))
+knitr::kable(DT,
+  align = "r",
+  caption = "Table 1: Properties of metals.",
+  col.names = c("Metal", "Density [kg/m$^3$]", "Therm. expan. [m/m K$^{-1}$]", "Therm. cond. [W/m K$^{-1}$]", "Elastic modulus")
+)
 ```
 
-|                     Metal | Density \[kg/m$^3$\] | Therm. expan. \[m/m K$^{-1}$\] | Therm. cond. \[W/m K$^{-1}$\] |      Elastic modulus |
-|--------------------------:|---------------------:|-------------------------------:|------------------------------:|---------------------:|
-| $\mathrm{aluminum\>6061}$ |               $2700$ |          $24.3 \times 10^{-6}$ |                         $156$ | $73.1\>\mathrm{GPa}$ |
-|         $\mathrm{copper}$ |               $8900$ |          $16.6 \times 10^{-6}$ |                         $393$ |  $117\>\mathrm{GPa}$ |
-|           $\mathrm{lead}$ |              $11300$ |          $52.7 \times 10^{-6}$ |                        $37.0$ | $13.8\>\mathrm{GPa}$ |
-|       $\mathrm{platinum}$ |              $21400$ |          $9.00 \times 10^{-6}$ |                        $69.2$ |  $147\>\mathrm{GPa}$ |
-|    $\mathrm{steel\>1020}$ |               $7850$ |          $11.3 \times 10^{-6}$ |                        $46.7$ |  $207\>\mathrm{GPa}$ |
-|       $\mathrm{titanium}$ |               $4850$ |          $9.36 \times 10^{-6}$ |                        $7.44$ |  $102\>\mathrm{GPa}$ |
+| Metal | Density \[kg/m$^3$\] | Therm. expan. \[m/m K$^{-1}$\] | Therm. cond. \[W/m K$^{-1}$\] | Elastic modulus |
+|---:|---:|---:|---:|---:|
+| $\mathrm{aluminum\ 6061}$ | $2700$ | $24.3 \times 10^{-6}$ | $156$ | $73.1\ \mathrm{GPa}$ |
+| $\mathrm{copper}$ | $8900$ | $16.6 \times 10^{-6}$ | $393$ | $117\ \mathrm{GPa}$ |
+| $\mathrm{lead}$ | $11300$ | $52.7 \times 10^{-6}$ | $37.0$ | $13.8\ \mathrm{GPa}$ |
+| $\mathrm{platinum}$ | $21400$ | $9.00 \times 10^{-6}$ | $69.2$ | $147\ \mathrm{GPa}$ |
+| $\mathrm{steel\ 1020}$ | $7850$ | $11.3 \times 10^{-6}$ | $46.7$ | $207\ \mathrm{GPa}$ |
+| $\mathrm{titanium}$ | $4850$ | $9.36 \times 10^{-6}$ | $7.44$ | $102\ \mathrm{GPa}$ |
 
 Table 1: Properties of metals.
 
 <br>
 
 *Options*.   For users who prefer a comma as the decimal mark, the
-argument can be set once using `formatdown_options()`,
+argument can be set once using `formatdown_options()`. If desired, we
+can also change the multiplication symbol to a half-high dot.
 
 ``` r
-formatdown_options(decimal_mark = ",")
+formatdown_options(decimal_mark = ",", multiply_mark = "\\cdot")
 ```
 
 Using the same code as above to format the metals data yields,
 
-|                     Metal | Density \[kg/m$^3$\] | Therm. expan. \[m/m K$^{-1}$\] | Therm. cond. \[W/m K$^{-1}$\] |      Elastic modulus |
-|--------------------------:|---------------------:|-------------------------------:|------------------------------:|---------------------:|
-| $\mathrm{aluminum\>6061}$ |               $2700$ |          $24,3 \times 10^{-6}$ |                         $156$ | $73,1\>\mathrm{GPa}$ |
-|         $\mathrm{copper}$ |               $8900$ |          $16,6 \times 10^{-6}$ |                         $393$ |  $117\>\mathrm{GPa}$ |
-|           $\mathrm{lead}$ |              $11300$ |          $52,7 \times 10^{-6}$ |                        $37,0$ | $13,8\>\mathrm{GPa}$ |
-|       $\mathrm{platinum}$ |              $21400$ |          $9,00 \times 10^{-6}$ |                        $69,2$ |  $147\>\mathrm{GPa}$ |
-|    $\mathrm{steel\>1020}$ |               $7850$ |          $11,3 \times 10^{-6}$ |                        $46,7$ |  $207\>\mathrm{GPa}$ |
-|       $\mathrm{titanium}$ |               $4850$ |          $9,36 \times 10^{-6}$ |                        $7,44$ |  $102\>\mathrm{GPa}$ |
+| Metal | Density \[kg/m$^3$\] | Therm. expan. \[m/m K$^{-1}$\] | Therm. cond. \[W/m K$^{-1}$\] | Elastic modulus |
+|---:|---:|---:|---:|---:|
+| $\mathrm{aluminum\ 6061}$ | $2700$ | $24,3 \cdot 10^{-6}$ | $156$ | $73,1\ \mathrm{GPa}$ |
+| $\mathrm{copper}$ | $8900$ | $16,6 \cdot 10^{-6}$ | $393$ | $117\ \mathrm{GPa}$ |
+| $\mathrm{lead}$ | $11300$ | $52,7 \cdot 10^{-6}$ | $37,0$ | $13,8\ \mathrm{GPa}$ |
+| $\mathrm{platinum}$ | $21400$ | $9,00 \cdot 10^{-6}$ | $69,2$ | $147\ \mathrm{GPa}$ |
+| $\mathrm{steel\ 1020}$ | $7850$ | $11,3 \cdot 10^{-6}$ | $46,7$ | $207\ \mathrm{GPa}$ |
+| $\mathrm{titanium}$ | $4850$ | $9,36 \cdot 10^{-6}$ | $7,44$ | $102\ \mathrm{GPa}$ |
 
 Table 2: Changing the decimal mark
 

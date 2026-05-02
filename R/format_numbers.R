@@ -17,25 +17,37 @@ get_size_markup <- function(size) {
 
 # Determine indices to decimal (non-power) rows
 assign_non_power_rows <- function(DT, format, omit_power, set_power) {
+
   # Indicate these are not unbound symbols (R CMD check Note)
   exponent <- NULL
   exp_raw <- NULL
   omit <- NULL
+  x <- NULL
+
   # Create default
   DT[, omit := FALSE]
-  # Cases for omit TRUE
+
+   # Cases for omit TRUE
   DT[exponent %between% omit_power, omit := TRUE]
+
+  # recompute for engr
   if (format == "engr") {
     DT[, exponent := floor(exp_raw / 3) * 3]
     DT[exponent %between% omit_power, omit := TRUE]
   }
-  # Identify the non-power rows
-  non_pow <- DT$omit
+
+  # Issue #10, when x = 0 Log10(0) yields Inf
+  DT[x == 0, omit := TRUE]
+
   # Override all if set_power has been assigned
   if (isTRUE(!is_null_or_na(set_power))) {
     DT[, exponent := set_power]
-    non_pow <- FALSE
+    DT[x != 0, omit := FALSE]
   }
+
+  # Identify the non-power rows
+  non_pow <- DT$omit
+
   return(non_pow)
 }
 
@@ -117,6 +129,7 @@ get_units_suffix <- function(units_string, whitespace) {
 #' @param small_mark     `r param_small_mark`
 #' @param small_interval `r param_small_interval`
 #' @param whitespace     `r param_whitespace`
+#' @param multiply_mark  `r param_multiply_mark`
 #'
 #' @return A character vector in which numbers are formatted in power-of-ten
 #' or decimal notation and delimited for rendering as inline equations
@@ -138,12 +151,13 @@ format_numbers <- function(x,
                            big_interval   = formatdown_options("big_interval"),
                            small_mark     = formatdown_options("small_mark"),
                            small_interval = formatdown_options("small_interval"),
-                           whitespace     = formatdown_options("whitespace")) {
+                           whitespace     = formatdown_options("whitespace"),
+                           multiply_mark  = formatdown_options("multiply_mark")) {
 
   # Overhead ----------------------------------------------------------------
 
   # Arguments after dots must be named
-  arg_after_dots_named(...)
+  wrapr::stop_if_dot_args(substitute(list(...)), "format_numbers()")
 
   # Indicate these are not unbound symbols (R CMD check Note)
   size_markup <- NULL
@@ -215,14 +229,15 @@ format_numbers <- function(x,
 
   # big_mark, small_mark
 
-
-
-
   # intervals: integer-ish, length 1 (can be NA), equal to 0,1,2,...
   checkmate::qassert(big_interval  , "x1[0,)")
   checkmate::qassert(small_interval, "x1[0,)")
   if (isTRUE(big_interval < 1))   {big_mark   = ""}
   if (isTRUE(small_interval < 1)) {small_mark = ""}
+
+  # multiply_mark: character, not missing, length 1, two options
+  checkmate::qassert(multiply_mark, "S1")
+  checkmate::assert_choice(multiply_mark, choices = c("\\times", "\\cdot"))
 
   # Initial processing -----------------------------------------
 
@@ -236,9 +251,6 @@ format_numbers <- function(x,
     # Create unit_space from whitespace by dropping the first backslash
     unit_space <- substr(whitespace, start = 2, stop = 100000L)
   }
-
-  # Set significant digits before processing
-  x <- signif(x, digits = digits)
 
   # Assign markup parameters
   size_markup <- get_size_markup(size)
@@ -263,6 +275,9 @@ format_numbers <- function(x,
   DT[non_pow, coeff := x]
   DT[pow_10,  coeff := x / 10^exponent]
 
+  # Apply signif digits to the coefficient before formatC()
+  DT[, coeff := signif(coeff, digits = digits)]
+
   # Format the coefficient as character
   DT[, char_coeff := formatC(coeff,
                              format         = "fg",
@@ -281,7 +296,7 @@ format_numbers <- function(x,
   # Construct various string values
   # Desired character output is in the value column
   DT[non_pow, value := char_coeff]
-  DT[pow_10, value := paste0(char_coeff, " \\times ", "10^{", exponent, "}")]
+  DT[pow_10, value := paste0(char_coeff, " ", multiply_mark, " ", "10^{", exponent, "}")]
   DT[is.na(x), value := "\\mathrm{NA}"]
 
   # Add units suffix if any
@@ -303,7 +318,7 @@ format_numbers <- function(x,
 
 
 
-#' Format scientific notation
+#' Format numbers in scientific notation
 #'
 #' Convert a numeric vector to a character vector in which the numbers are
 #' formatted in power-of-ten notation in scientific form and delimited for
@@ -320,8 +335,8 @@ format_numbers <- function(x,
 #' notation in scientific form and delimited for rendering as inline equations
 #' in an R markdown document.
 #'
+#' @example man/examples/examples_format_sci.R
 #' @inherit format_numbers
-#'
 #' @family format_*
 #' @export
 format_sci <- function(x,
@@ -336,10 +351,11 @@ format_sci <- function(x,
                        decimal_mark   = formatdown_options("decimal_mark"),
                        small_mark     = formatdown_options("small_mark"),
                        small_interval = formatdown_options("small_interval"),
-                       whitespace     = formatdown_options("whitespace")) {
+                       whitespace     = formatdown_options("whitespace"),
+                       multiply_mark  = formatdown_options("multiply_mark")) {
 
   # Arguments after dots must be named
-  arg_after_dots_named(...)
+  wrapr::stop_if_dot_args(substitute(list(...)), "format_sci()")
 
   # wrap format_numbers()
   output <- format_numbers(x          = x,
@@ -354,11 +370,12 @@ format_sci <- function(x,
                            small_mark     = small_mark,
                            small_interval = small_interval,
                            whitespace     = whitespace,
+                           multiply_mark  = multiply_mark,
 
                            # wrapper pre-sets
-                           format         = "sci",
-                           big_mark       = formatdown_options("big_mark"),
-                           big_interval   = formatdown_options("big_interval")
+                           format       = "sci",
+                           big_mark     = formatdown_options("big_mark"),
+                           big_interval = formatdown_options("big_interval")
   )
 
   # enable printing (see data.table FAQ 2.23)
@@ -383,12 +400,12 @@ format_sci <- function(x,
 #'
 #' Arguments after the dots (`...`) must be referred to by name.
 #'
-#' @inherit format_numbers
-#'
 #' @return A character vector in which numbers are formatted in power-of-ten
 #' notation in engineering form and delimited for rendering as inline equations
 #' in an R markdown document.
 #'
+#' @example man/examples/examples_format_engr.R
+#' @inherit format_numbers
 #' @family format_*
 #' @export
 format_engr <- function(x,
@@ -398,15 +415,16 @@ format_engr <- function(x,
                         set_power = NULL,
 
                         # options
-                        delim        = formatdown_options("delim"),
-                        size         = formatdown_options("size"),
+                        delim          = formatdown_options("delim"),
+                        size           = formatdown_options("size"),
                         decimal_mark   = formatdown_options("decimal_mark"),
                         small_mark     = formatdown_options("small_mark"),
                         small_interval = formatdown_options("small_interval"),
-                        whitespace     = formatdown_options("whitespace")) {
+                        whitespace     = formatdown_options("whitespace"),
+                        multiply_mark  = formatdown_options("multiply_mark")) {
 
   # Arguments after dots must be named
-  arg_after_dots_named(...)
+  wrapr::stop_if_dot_args(substitute(list(...)), "format_engr()")
 
   # wrap format_numbers()
   output <- format_numbers(x          = x,
@@ -415,17 +433,18 @@ format_engr <- function(x,
                            set_power  = set_power,
 
                            # options
-                           delim        = delim,
-                           size         = size,
+                           delim          = delim,
+                           size           = size,
                            decimal_mark   = decimal_mark,
                            small_mark     = small_mark,
                            small_interval = small_interval,
                            whitespace     = whitespace,
+                           multiply_mark  = multiply_mark,
 
                            # wrapper pre-sets
-                           format         = "engr",
-                           big_mark       = formatdown_options("big_mark"),
-                           big_interval   = formatdown_options("big_interval")
+                           format       = "engr",
+                           big_mark     = formatdown_options("big_mark"),
+                           big_interval = formatdown_options("big_interval")
   )
 
   # enable printing (see data.table FAQ 2.23)
@@ -438,7 +457,7 @@ format_engr <- function(x,
 
 
 
-#' Format decimal notation
+#' Format numbers in decimal notation
 #'
 #' Convert a numeric vector to a character vector in which the numbers are
 #' formatted in decimal form and delimited for rendering as inline equations
@@ -451,11 +470,11 @@ format_engr <- function(x,
 #'
 #' Arguments after the dots (`...`) must be referred to by name.
 #'
-#' @inherit format_numbers
-#'
 #' @return A character vector in which numbers are formatted in decimal form
 #' and delimited for rendering as inline equations in an R markdown document.
 #'
+#' @example man/examples/examples_format_dcml.R
+#' @inherit format_numbers
 #' @family format_*
 #' @export
 format_dcml <- function(x,
@@ -473,7 +492,7 @@ format_dcml <- function(x,
                         whitespace     = formatdown_options("whitespace")) {
 
   # Arguments after dots must be named
-  arg_after_dots_named(...)
+  wrapr::stop_if_dot_args(substitute(list(...)), "format_dcml()")
 
   # wrap for format_numbers()
   output <- format_numbers(x      = x,
@@ -492,7 +511,8 @@ format_dcml <- function(x,
                            # wrapper presets
                            format     = "dcml",
                            omit_power = NULL,
-                           set_power  = NULL)
+                           set_power  = NULL,
+                           multiply_mark = formatdown_options("multiply_mark"))
 
   # enable printing (see data.table FAQ 2.23)
   output[]

@@ -30,7 +30,7 @@ param_set_power <- 'Integer, length 1. Formats all values in `x` with the same
 param_delim <- 'Character, length 1 or 2, to define the left and right math
         markup delimiters. The default setting, `delim = "$"`, produces
         left and right delimiters `$...$`. The alternate built-in
-        setting, `delim = "\\("`, produces left and right delimiters
+        setting, `delim = "\\\\("`, produces left and right delimiters
         `\\\\( ... \\\\)`. Custom delimiters can be assigned in a vector of
         length 2 with left and right delimiter symbols, e.g.,
         `c("\\\\[", "\\\\]")`. Special characters typically must be escaped.'
@@ -68,10 +68,27 @@ param_small_interval <- 'Integer, length 1, that defines the number of digits
         `formatC(small.interval)`.'
 
 param_whitespace <- 'Character, length 1, to define the LaTeX-style
-      math-mode macro to preserve a horizontal space between words of text or
-      between physical-unit abbreviations when formatting numbers of class
-      "units". Default is `"\\\\\\\\>"`. Alternatives include `"\\\\\\\\:"` or
-        "`\\\\\\\\ `".'
+        math-mode macro to preserve a horizontal space between words of text or
+        between physical-unit abbreviations when formatting numbers of class
+        "units". Default is `"\\\\\\\\ "`. Alternatives include `"\\\\\\\\:"` or
+        "`\\\\\\\\>`".'
 
+param_multiply_mark <- 'Character, length 1, to define the multiplication symbol
+        in power of ten notation. Possible values are `"\\\\times"` (default)
+        or a half-high dot `"\\\\cdot"` which is often used when the decimal
+        mark is a comma.'
 
+param_Z <- 'Logical, length 1, default FALSE, used to determine whether or
+        not the atomic number subscript is used in formatting nuclear
+        notation of isotopes.'
 
+param_warn <- 'Logical, length 1, default TRUE, used to determine whether or
+        not a warning is issued when an input for a chemical element in
+        hyphenated notation contains an error in the element symbol or the
+        mass number of the isotope.'
+
+param_face <- 'Font face. Determines the font face macro inside the math
+        delimiters. Possible values are `"plain"` (default), `"italic"`,
+        `"bold"`, `"sans"`, or `"mono"`. One may assign instead the
+        corresponding LaTeX-style markup itself, e.g., `\\mathrm`,
+        `\\mathit`, `\\mathbf`, `\\mathsf`, or `\\mathtt`.'

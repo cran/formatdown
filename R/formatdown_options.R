@@ -1,14 +1,17 @@
 # Internal function not exported:
 
 formatdown_opts <- settings::options_manager(
-  delim = "$",
-  size = NULL,
-  decimal_mark = ".",
-  big_mark = "",
-  big_interval = 3,
-  small_mark = "",
+  delim          = "$",
+  size           = NULL,
+  decimal_mark   = ".",
+  big_mark       = "",
+  big_interval   = 3,
+  small_mark     = "",
   small_interval = 5,
-  whitespace = "\\\\>"
+  whitespace     = "\\\\ ",
+  multiply_mark  = "\\times",
+  Z              = FALSE,
+  warn           = TRUE
 )
 
 # User function is exported:
@@ -36,6 +39,10 @@ formatdown_opts <- settings::options_manager(
 #' - `small_mark`:     `r param_small_mark`
 #' - `small_interval`: `r param_small_interval`
 #' - `whitespace`:     `r param_whitespace`
+#' - `multiply_mark`:  `r param_multiply_mark`
+#' - `Z`:              `r param_Z`
+#' - `warn`:           `r param_warn`
+#'
 #'
 #' @param reset Logical vector of length 1; if TRUE, reset all options to their
 #'     default values.
@@ -47,8 +54,10 @@ formatdown_opts <- settings::options_manager(
 #' @example man/examples/examples_formatdown_options.R
 #' @export
 formatdown_options <- function(..., reset = FALSE) {
-  # rest is Boolean, not missing, length 1
+
+  # reset is Boolean, not missing, length 1
   checkmate::qassert(reset, "B1")
+
   if (reset) {
     settings::reset(formatdown_opts)
   } else {

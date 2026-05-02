@@ -2,7 +2,7 @@
 % Please edit documentation in R/format_numbers.R
 \name{format_sci}
 \alias{format_sci}
-\title{Format scientific notation}
+\title{Format numbers in scientific notation}
 \usage{
 format_sci(
   x,
@@ -15,7 +15,8 @@ format_sci(
   decimal_mark = formatdown_options("decimal_mark"),
   small_mark = formatdown_options("small_mark"),
   small_interval = formatdown_options("small_interval"),
-  whitespace = formatdown_options("whitespace")
+  whitespace = formatdown_options("whitespace"),
+  multiply_mark = formatdown_options("multiply_mark")
 )
 }
 \arguments{
@@ -44,7 +45,7 @@ arguments.}
 \item{delim}{Character, length 1 or 2, to define the left and right math
 markup delimiters. The default setting, \code{delim = "$"}, produces
 left and right delimiters \verb{$...$}. The alternate built-in
-setting, \code{delim = "\\("}, produces left and right delimiters
+setting, \code{delim = "\\\\("}, produces left and right delimiters
 \verb{\\\\( ... \\\\)}. Custom delimiters can be assigned in a vector of
 length 2 with left and right delimiter symbols, e.g.,
 \verb{c("\\\[", "\\\]")}. Special characters typically must be escaped.}
@@ -73,8 +74,13 @@ Passed to \code{formatC(small.mark)}.}
 \item{whitespace}{Character, length 1, to define the LaTeX-style
 math-mode macro to preserve a horizontal space between words of text or
 between physical-unit abbreviations when formatting numbers of class
-"units". Default is \code{"\\\\\\\\>"}. Alternatives include \code{"\\\\\\\\:"} or
-"\verb{\\\\\\\\ }".}
+"units". Default is \code{"\\\\\\\\ "}. Alternatives include \code{"\\\\\\\\:"} or
+"\verb{\\\\\\\\>}".}
+
+\item{multiply_mark}{Character, length 1, to define the multiplication symbol
+in power of ten notation. Possible values are \code{"\\\\times"} (default)
+or a half-high dot \code{"\\\\cdot"} which is often used when the decimal
+mark is a comma.}
 }
 \value{
 A character vector in which numbers are formatted in power-of-ten
@@ -97,76 +103,60 @@ Arguments after the dots (\code{...}) must be referred to by name.
 \examples{
 # input: single number
 x <- 6.0221E+23
-format_numbers(x)
+format_sci(x)
 
 # input: units class
 x <- 103400
 units(x) <- "N m2 C-2"
-format_numbers(x)
+format_sci(x)
 
 # input: vector
 data("metals", package = "formatdown")
 x <- metals$dens
-format_numbers(x)
+format_sci(x)
 
 # significant digits
 x <- 9.75358e+5
-format_numbers(x, 2)
-format_numbers(x, 3)
-format_numbers(x, 4)
-
-# format & wrappers: format_engr(), format_sci(), format_dcml()
-x <- 6.0221E+23
-format_numbers(x, format = "engr")
-format_engr(x)
-
-format_numbers(x, format = "sci")
-format_sci(x)
-
-x <- 103400
-format_numbers(x, format = "dcml")
-format_dcml(x)
+format_sci(x, 2)
+format_sci(x, 3)
+format_sci(x, 4)
 
 # input: data frame
 x <- metals[, c("thrm_exp", "thrm_cond")]
 as.data.frame(apply(x, 2, format_sci, digits = 3))
+
+# format_sci() same as format_numbers(..., format = "sci")
+x <- 6.0221E+23
+format_sci(x)
+format_numbers(x, format = "sci")
 
 # omit_power
 x <- 103400
 format_sci(x, omit_power = c(-1, 2)) # default
 format_sci(x, omit_power = c(-1, 5))
 format_sci(x, omit_power = 5) # equivalent to omit_power = c(5, 5)
-x <- 1.2
+
+# omit_power = NULL, power-of-ten notation for all elements
+x <- c(1.2, 103400)
+format_sci(x)
 format_sci(x, omit_power = NULL)
 
-# set_power
-format_sci(x, set_power = NULL) # default
-format_sci(x, set_power = 3)
-
-# set_power overrides format
-x <- 6.0221E+23
-format_engr(x)
-format_engr(x, set_power = 24L)
+# set_power overrides default scientific exponent
+x <- 103400
 format_sci(x)
-format_sci(x, set_power = 24L)
+format_sci(x, set_power = 4)
 
 # set_power overrides omit_power
-x <- 101300
-format_sci(x, omit_power = 5)
-format_sci(x, omit_power = 5, set_power = 2)
-format_sci(x, omit_power = 2)
-format_sci(x, omit_power = 2, set_power = 2)
-
-# decimal format ignores set_power
 x <- 103400
-format_numbers(x, format = "dcml")
-format_numbers(x, format = "dcml", set_power = 3)
-
+format_sci(x)
+format_sci(x, omit_power = 5)
+format_sci(x, omit_power = 5, set_power = 4)
 }
 \seealso{
 Other format_*: 
 \code{\link{format_dcml}()},
 \code{\link{format_engr}()},
+\code{\link{format_nucl}()},
 \code{\link{format_numbers}()},
 \code{\link{format_text}()}
 }

@@ -1,4 +1,27 @@
 
+#' Chemical elements
+#'
+#' Table of 118 chemical elements with name, symbol, atomic number, and
+#' mass numbers. Elements with more than one possible mass number have
+#' separate rows for each isotope.
+#'
+#' In "AZE" or "AZX" notation, "A" is the mass number, "Z" is the atomic number,
+#' and "E" or "X" is the element symbol.
+#'
+#' @usage data(element_set, package = "formatdown")
+#'
+#' @format Classes data.table and data.frame with	`r nrow(element_set)`
+#' observations of `r ncol(element_set)` variables:
+#'
+#'   \describe{
+#'    \item{element}{Character, element name, hydrogen (atomic number 1)
+#'                   through oganesson (atomic number 118).}
+#'    \item{symbol}{Character, element symbol.}
+#'    \item{atomic_number}{Character, 1-118.}
+#'    \item{mass_number}{Character, 1-294.}
+#'    }
+"element_set"
+
 #' Air density measurements
 #'
 #' Table of air properties at room temperature and pressure, simulating multiple
@@ -6,7 +29,9 @@
 #'
 #' @usage data(air_meas, package = "formatdown")
 #'
-#' @format Classes data.table and data.frame:	5 observations of 7 variables:
+#' @format Classes data.table and data.frame with	`r nrow(air_meas)` observations
+#' of `r ncol(air_meas)` variables:
+#'
 #'   \describe{
 #'    \item{date}{"Date" class format "YYYY-MM-DD".}
 #'    \item{trial}{Character, label "a" through "e".}
@@ -27,7 +52,9 @@
 #'
 #' @usage data(atmos, package = "formatdown")
 #'
-#' @format Classes data.table and data.frame: 9 observations of 5 variables:
+#' @format Classes data.table and data.frame with `r nrow(atmos)` observations
+#' of `r ncol(atmos)` variables:
+#'
 #' \describe{
 #'  \item{alt}{Numeric, altitude (km)}
 #'  \item{temp}{Numeric, air temperature (K)}
@@ -49,7 +76,9 @@
 #'
 #' @usage data(metals, package = "formatdown")
 #'
-#' @format Classes data.table and data.frame:	6 observations of  5 variables:
+#' @format Classes data.table and data.frame with	`r nrow(metals)` observations
+#' of `r ncol(metals)` variables:
+#'
 #' \describe{
 #'  \item{metal}{Character, name of material}
 #'  \item{dens}{Numeric, density (kg m\eqn{^{-3}}{^{-3}})}
@@ -73,7 +102,9 @@
 #'
 #' @usage data(water, package = "formatdown")
 #'
-#' @format Classes data.table and data.frame:	11 observations of 5 variables:
+#' @format Classes data.table and data.frame with `r nrow(water)` observations
+#' of `r ncol(water)` variables:
+#'
 #' \describe{
 #'  \item{temp}{Numeric, temperature (K)}
 #'  \item{dens}{Numeric, density (kg m\eqn{^{-3}}{^{-3}})}

@@ -12,7 +12,9 @@ test_formatdown_options <- function() {
   # big_interval = 3      any positive integer
   # small_mark = ""       "thin" or "\\\\,"
   # small_interval = 5    any positive integer
-  # whitespace = "\\\\>"  "\\\\:" or "⁠\\\\ ⁠".
+  # whitespace = "\\\\>"  "\\\\:" or "⁠\\\\ ⁠".,
+  # Z = FALSE,
+  # warn = TRUE
 
   # Store existing settings
   prior_settings <- formatdown_options()
@@ -88,7 +90,7 @@ test_formatdown_options <- function() {
   formatdown_options(reset = TRUE)
 
   # whitespace
-  ans915 <- "\\\\>"
+  ans915 <- "\\\\ "
   expect_equal(ans915, formatdown_options("whitespace"))
 
   x <- "hello world"
@@ -108,6 +110,38 @@ test_formatdown_options <- function() {
   ans918 <- "$0,9876\\,5432\\,11$"
   expect_equal(ans918, format_dcml(x, 10))
   formatdown_options(reset = TRUE)
+
+  # multiply_mark
+  x <- 6.0221e+23
+  formatdown_options(decimal_mark = ",", multiply_mark = "\\cdot")
+  ans919 <- "$6,022 \\cdot 10^{23}$"
+  expect_equal(ans919, format_sci(x))
+  formatdown_options(reset = TRUE)
+
+  # Z (atomic number)
+  ans920 <- FALSE
+  expect_equal(ans920, formatdown_options("Z"))
+
+  formatdown_options("Z" = TRUE)
+
+  ans921 <- TRUE
+  expect_equal(ans921, formatdown_options("Z"))
+
+  formatdown_options(Z = FALSE)
+
+
+  # isotope warning
+  ans922 <- TRUE
+  expect_equal(ans922, formatdown_options("warn"))
+
+  formatdown_options("warn" = FALSE)
+
+  ans923 <- FALSE
+  expect_equal(ans923, formatdown_options("warn"))
+
+  formatdown_options("warn" = TRUE)
+
+
 
   # ERRORS  ------------------------
   expect_error(formatdown_options("x"))

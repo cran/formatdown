@@ -34,7 +34,7 @@ The arguments that can be set with this function are as follows:
 \item \code{delim}:          Character, length 1 or 2, to define the left and right math
 markup delimiters. The default setting, \code{delim = "$"}, produces
 left and right delimiters \verb{$...$}. The alternate built-in
-setting, \code{delim = "\\("}, produces left and right delimiters
+setting, \code{delim = "\\\\("}, produces left and right delimiters
 \verb{\\\\( ... \\\\)}. Custom delimiters can be assigned in a vector of
 length 2 with left and right delimiter symbols, e.g.,
 \verb{c("\\\[", "\\\]")}. Special characters typically must be escaped.
@@ -67,8 +67,19 @@ Passed to \code{formatC(small.mark)}.
 \item \code{whitespace}:     Character, length 1, to define the LaTeX-style
 math-mode macro to preserve a horizontal space between words of text or
 between physical-unit abbreviations when formatting numbers of class
-"units". Default is \code{"\\\\\\\\>"}. Alternatives include \code{"\\\\\\\\:"} or
-"\verb{\\\\\\\\ }".
+"units". Default is \code{"\\\\\\\\ "}. Alternatives include \code{"\\\\\\\\:"} or
+"\verb{\\\\\\\\>}".
+\item \code{multiply_mark}:  Character, length 1, to define the multiplication symbol
+in power of ten notation. Possible values are \code{"\\\\times"} (default)
+or a half-high dot \code{"\\\\cdot"} which is often used when the decimal
+mark is a comma.
+\item \code{Z}:              Logical, length 1, default FALSE, used to determine whether or
+not the atomic number subscript is used in formatting nuclear
+notation of isotopes.
+\item \code{warn}:           Logical, length 1, default TRUE, used to determine whether or
+not a warning is issued when an input for a chemical element in
+hyphenated notation contains an error in the element symbol or the
+mass number of the isotope.
 }
 }
 \examples{
@@ -100,11 +111,25 @@ do.call(formatdown_options, old_settings)
 # delim
 x <- 101300
 format_dcml(x)
+# equivalent to
+format_dcml(x, delim = c("$", "$"))
+# built-in alternate
 format_dcml(x, delim = "\\\\(")
+# equivalent to
+format_dcml(x, delim = c("\\\\(", "\\\\)"))
 
 # size
 format_dcml(x, size = "small")
+# equivalent to
 format_dcml(x, size = "\\\\small")
+# other possible values
+format_dcml(x, size = "scriptsize")
+format_dcml(x, size = "large")
+format_dcml(x, size = "huge")
+# default NULL
+format_dcml(x, size = NULL)
+# renders equivalent to
+format_dcml(x, size = "normalsize")
 
 # decimal_mark
 y <- 6.02214076E+10
@@ -114,6 +139,7 @@ format_sci(y, 5, decimal_mark = ",")
 # big_mark
 format_dcml(y, 9)
 format_dcml(y, 9, big_mark = "thin")
+# equivalent to
 format_dcml(y, 9, big_mark = "\\\\\\\\,")
 
 # big_interval
@@ -134,11 +160,22 @@ format_engr(z, 10, small_mark = "thin", small_interval = 5)
 
 # whitespace in text
 p <- "Hello world!"
+format_text(p)
+# equivalent to
+format_text(p, whitespace = "\\\\\\\\ ")
+# alternates
 format_text(p, whitespace = "\\\\\\\\:")
+format_text(p, whitespace = "\\\\\\\\>")
 
 # whitespace in physical units expression
 x <- pi
 units(x) <- "m/s"
-format_dcml(x, whitespace = "\\\\\\\\:")
+format_dcml(x)
+# equivalent to
+format_dcml(x, whitespace = "\\\\\\\\ ")
 
+# multiply_mark
+x <- 101300
+format_engr(x, decimal_mark = ".", multiply_mark = "\\\\times")
+format_engr(x, decimal_mark = ",", multiply_mark = "\\\\cdot")
 }
